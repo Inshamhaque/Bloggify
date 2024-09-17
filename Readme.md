@@ -14,4 +14,5 @@ On a bigger scale, the creating blog route is yet to be created from scratch. Fi
 # Blogs/bulk page -> UI like hashnode just shift the blog in middle aur make it more subtle 
 # Blog:id -> just find a way to import the image 
 # Landing page -> 
+# Recommendation system & Automatic tagging system -> using ML 
 
