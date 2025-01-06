@@ -1,17 +1,16 @@
-
-import { Quote } from "../components/Quote"
+import { Quote } from "../components/Quote";
 import { Auth } from "../components/Auth";
-export const Signup = ()=>{
-    return(
-        <div className="grid grid-cols-1 lg:grid-cols-2 ">
-            <div className="col-span-1 flex items-center justify-center">
-                <Auth str="signup"/>
-            </div>
-            
-            <div className=" col-span-1 hidden lg:block">
+
+export const Signup = () => {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6">
+            {/* Auth Component */}
+            <Auth str="signup" />
+
+            {/* Quote Component */}
+            <div className="absolute bottom-4 right-4 hidden lg:block">
                 <Quote />
             </div>
-            
         </div>
-    )
-}
+    );
+};
