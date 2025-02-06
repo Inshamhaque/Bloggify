@@ -5,6 +5,7 @@ import { Blog } from './pages/blog'
 import { Blogs } from './pages/blogs'
 import { Createblog } from './pages/createBlog'
 import { Edit } from './pages/edit'
+import LandingPage from './pages/landing_page'
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Signup />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/blog/:id" element={<Blog />} />
           {/* returning all blogs  */}
