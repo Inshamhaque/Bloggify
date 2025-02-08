@@ -47,7 +47,7 @@ npm run dev
 ## 👥 Contributors
 
 - [Inshamul haque](https://github.com/Inshamhaque)
-- [Syed Faiz Ahmed](https://github.com/)
+- [Syed Faiz Ahmed](https://github.com/sfahmed-hash)
 
 ## 🤝 Contributing
 We welcome contributions! Feel free to fork the repository, create feature branches, and submit pull requests.
