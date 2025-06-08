@@ -23,8 +23,7 @@ export const Createblog = () => {
         <Editor />
         
         {/* Publish Button */}
-        <button className="mt-6 px-6 py-3 bg-red-500 text-white rounded-lg text-lg font-semibold hover:bg-red-600 transition" onClick={()=>{ navigate('/edit');}}>
-          Publish Blog
+        <button className="mt-6 px-6 py-3 bg-red-500 text-white rounded-lg text-lg font-semibold hover:bg-red-600 transition transform hover:scale-105" onClick={()=>{ navigate('/edit');}}>          Publish Blog
         </button>
       </div>
     </div>
