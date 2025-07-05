@@ -1,23 +1,26 @@
 import pic from './th.jpeg';
-import logo from '../assets/ICON.png'
+import logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../hooks/ThemeToggle';
 
 export const PublishBar = () => {
     const navigate = useNavigate();
 
-    return (
-        <div className="w-full py-3 px-6 flex justify-between items-center">
+    return ( 
+        <div className="w-full py-3 px-6 flex justify-between items-center dark:bg-gray-900">
             {/* Left Section */}
-            <div className="flex items-center gap-x-7">
-                <div className="flex gap-3 font-mono text-xl cursor-pointer font-semibold text-blue-900" onClick={() => navigate('/')}>
-                    Bloggify
-                    <img  className="w-auto h-10 border-gray-300 hover:border-red-500 transition" src={logo} alt="bloggify.icon" />
-                </div>
-                <span className="text-gray-600 text-sm italic">✏️ Draft in Progress...</span>
+            <div className="flex items-center gap-x-20">
+                    <div className="flex gap-3 font-serif text-xl cursor-pointer font-semibold text-blue-900" onClick={() => navigate('/')}>
+                        Bloggify
+                        <img  className="h-10 w-auto transition-transform duration-200 hover:scale-105"  src={logo} alt="bloggify.icon" />
+                    </div>
+                
+                <span className="font-mono text-gray-600 text-sm italic"> Draft in Progress... ✏️</span>
             </div>
 
             {/* Right Section */}
             <div className="flex items-center gap-x-6">
+                <ThemeToggle/>
                 {/* Publish Button */}
                 <button
                     type="button"
