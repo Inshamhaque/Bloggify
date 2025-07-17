@@ -1,147 +1,107 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { WorldMap } from "../components/ui/world-map";
+import { Edit3 } from 'lucide-react'
 
 const LandingPage: React.FC = () => {
   return (
-    //<div className="bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen">
-    <div className="bg-gradient-to-r from-pink-100 via-white to-blue-100 min-h-screen">
-      {/* Navbar */}
-      <header className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
-        <div className="text-xl font-bold text-gray-800">Bloggify</div>
-        <nav className="space-x-6">
-          <a href="#home" className="text-gray-600 hover:text-blue-500"><b>Home</b></a>
-          <a href="#categories" className="text-gray-600 hover:text-blue-500"><b>Categories</b></a>
-          <a href="#blogs" className="text-gray-600 hover:text-blue-500"><b>Blogs</b></a>
-          <a href="#about" className="text-gray-600 hover:text-blue-500"><b>About</b></a>
-          <a href="#contact" className="text-gray-600 hover:text-blue-500"><b>Contact Us</b></a>
-        </nav>
-        <div className="space-x-4">
-          <Link to="signin"> 
-            <button className="text-gray-600 hover:text-blue-800">Log In</button>
-          </Link>
-          <Link to="signup">
-            <button className="px-4 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-800">Sign Up</button>
-          </Link>
+    <div className="bg-black text-white min-h-screen flex flex-col">
+      {/* Navigation */}
+      <nav className="relative z-10 flex justify-between items-center px-6 py-6 max-w-7xl mx-auto w-full">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center">
+            <Edit3 className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+            Bloggify
+          </span>
         </div>
+        <div className="hidden md:flex space-x-8 text-gray-300">
+          <a href="#features" className="hover:text-white transition-colors cursor-pointer">Features</a>
+          <a href="#about" className="hover:text-white transition-colors cursor-pointer">About</a>
+          <a href="#pricing" className="hover:text-white transition-colors cursor-pointer">Pricing</a>
+        </div>
+      </nav>
+      {/* Hero Section */}
+      <header className="py-16 px-6 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to Bloggify</h1>
+        <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          Your personalized blogging platform powered by GitHub. Write, publish, and share your thoughts with the world.
+        </p>
+        <Link
+          to="/auth/github"
+          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+        >
+          Sign in with GitHub
+        </Link>
       </header>
 
-      {/* Hero Section */}
-      <section className="text-center py-16">
-        <h1 className="text-4xl font-extrabold text-gray-800">
-        <span className="text-red-500">Discover. Learn. Share.</span> Welcome to Your Next Favorite Blog
-        </h1>
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-          Bloggify is a friend for expressing your creativity where one can explore a world of ideas, stories, and insights crafted to inform and inspire.
-        </p>
-        <Link to="/signup">
-            <button className="mt-6 px-6 py-3 bg-red-500 text-white text-lg font-semibold rounded-full hover:bg-red-600">
-                Get Started
-            </button>
-        </Link>
-        
-      </section>
+      {/* World Map Animation */}
+<div className="flex justify-center items-center py-12 px-4">
+  <WorldMap
+    dots={[
+      // Existing routes
+      {
+        start: { lat: 37.7749, lng: -122.4194, label: "San Francisco" },
+        end: { lat: 51.5074, lng: -0.1278, label: "London" },
+      },
+      {
+        start: { lat: 28.6139, lng: 77.209, label: "Delhi" },
+        end: { lat: 35.6895, lng: 139.6917, label: "Tokyo" },
+      },
+
+      // New routes
+      {
+        start: { lat: 40.7128, lng: -74.006, label: "New York" },
+        end: { lat: 48.8566, lng: 2.3522, label: "Paris" },
+      },
+      {
+        start: { lat: -33.8688, lng: 151.2093, label: "Sydney" },
+        end: { lat: 1.3521, lng: 103.8198, label: "Singapore" },
+      },
+      {
+        start: { lat: -23.5505, lng: -46.6333, label: "São Paulo" },
+        end: { lat: 19.4326, lng: -99.1332, label: "Mexico City" },
+      },
+      {
+        start: { lat: 52.52, lng: 13.405, label: "Berlin" },
+        end: { lat: 55.7558, lng: 37.6173, label: "Moscow" },
+      },
+      {
+        start: { lat: 31.2304, lng: 121.4737, label: "Shanghai" },
+        end: { lat: 39.9042, lng: 116.4074, label: "Beijing" },
+      },
+      {
+        start: { lat: 30.0444, lng: 31.2357, label: "Cairo" },
+        end: { lat: 6.5244, lng: 3.3792, label: "Lagos" },
+      },
+    ]}
+  />
+</div>
+
 
       {/* Features Section */}
-      <section className="bg-gradient-to-r from-pink-100 via-white to-blue-100 py-6">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Fuel Your Curiosity – One Blog at a Time
-        </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8">
-       
-          <div className="text-center flex flex-col items-center space-y-4">
-            <img
-              src="/src/assets/global.avif"
-              alt="Global"
-              className="rounded-2xl w-full md:w-64 lg:w-80 object-cover shadow-md"
-            />
-            <h3 className="text-lg font-bold">Know your audience</h3>
-            <p className="text-gray-600 text-sm">
-              Get to know which posts of yours are a hit and trending.
-            </p>
+      <section className="py-16 px-6 bg-zinc-900 text-center">
+        <h2 className="text-3xl font-bold mb-8">Why Bloggify?</h2>
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="bg-zinc-800 p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-2 text-orange-400">GitHub-Powered Auth</h3>
+            <p className="text-gray-300">Easily sign in with your GitHub account. No passwords, just productivity.</p>
           </div>
-    
-      <div className="text-center flex flex-col items-center space-y-4">
-        <img
-          src="/src/assets/connected.avif"
-          alt="Connected"
-          className="rounded-3xl w-full md:w-64 lg:w-80 object-cover shadow-md"
-        />
-        <h3 className="text-lg font-bold">Get known across the platform</h3>
-        <p className="text-gray-600 text-sm">
-          Make connections and interact easily with people you follow.
-        </p>
-      </div>
-    
-    <div className="text-center flex flex-col items-center space-y-4">
-      <img
-        src="/src/assets/million.jpg"
-        alt="Join"
-        className="rounded-3xl w-full md:w-64 lg:w-80 object-cover shadow-md"
-      />
-      <h3 className="text-lg font-bold">Join Millions of Others</h3>
-      <p className="text-gray-600 text-sm">
-        Sharing your experience or gaining knowledge on any topic.
-      </p>
-    </div>
-  </div>
-</section> 
-      {/* Testimonials Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-blue-100 py-12">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">What our Users say</h2>
-        <div className="max-w-4xl mx-auto px-8">
-          <blockquote className="text-gray-700 italic border-l-4 border-red-500 pl-4 mb-6">
-            “Bloggify is really intuitive to use and very insightful for obtaining all one needs to know about a topic or subject”
-          </blockquote>
-          <cite className="block text-right text-gray-600">-Syed Faiz Ahmed, III Year Student</cite>
+          <div className="bg-zinc-800 p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-2 text-orange-400">Custom Pages</h3>
+            <p className="text-gray-300">Your blog lives at <code>bloggify.dev/username</code>. Professional and shareable.</p>
+          </div>
+          <div className="bg-zinc-800 p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-2 text-orange-400">Minimal & Elegant</h3>
+            <p className="text-gray-300">A sleek editor and fast-loading UI for the best writing experience.</p>
+          </div>
         </div>
-      </section>
-
-      {/* Call-to-Action Section */}
-      <section className="text-center py-16 bg-gradient-to-r from-pink-100 via-white to-blue-100">
-        <h2 className="text-3xl font-extrabold text-gray-800 mb-4">
-            Explore Ideas, Insights, and Stories That Matter
-        </h2>
-        <Link to="signup">
-            <button className="px-6 py-3 bg-red-500 text-white text-lg font-semibold rounded-full hover:bg-red-600">
-                Get Started
-            </button>
-        </Link>
-        
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="max-w-6xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div>
-            <h3 className="font-bold mb-4">Help</h3>
-            <ul className="space-y-2">
-              <li><a href="#features" className="hover:underline">Help Center</a></li>
-              <li><a href="#pricing" className="hover:underline">Video Tutorials</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">Community</h3>
-            <ul className="space-y-2">
-              <li><a href="#customer-support" className="hover:underline">BlogBuzz</a></li>
-              <li><a href="#team-collaboration" className="hover:underline">Team Collaboration</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">Resources</h3>
-            <ul className="space-y-2">
-              <li><a href="#blogs" className="hover:underline">Blogs</a></li>
-              <li><a href="#webinars" className="hover:underline">Create blog</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li><a href="#about" className="hover:underline">About Us</a></li>
-              <li><a href="#careers" className="hover:underline">Careers</a></li>
-            </ul>
-          </div>
-        </div>
-        <p className="text-center mt-10 text-sm">&copy; 2025 Bloggify, Inc. All rights reserved.</p>
+      <footer className="bg-zinc-950 text-center py-6 text-gray-500 text-sm">
+        © {new Date().getFullYear()} Bloggify.dev — Built with 💻 and ☕ by Inshamul
       </footer>
     </div>
   );
