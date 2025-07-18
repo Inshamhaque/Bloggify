@@ -8,7 +8,6 @@ dotenv.config()
 app.use(express.json());
 connectToDB();
 
-
 // auth checkpoints
 app.get("/auth/github", (req, res) => {
   const redirectURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user,repo`;
