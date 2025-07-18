@@ -34,7 +34,7 @@ const client = createBlockNoteAIClient({
 const model = createOpenAI({
   // call via our proxy client
   ...client.getProviderSettings("openai"),
-})("gpt-4", {});
+})("gpt-4o-mini", {});
 
 export default function CreateBlog() {
   // Creates a new editor instance with AI extension
