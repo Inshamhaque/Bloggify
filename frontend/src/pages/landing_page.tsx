@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { WorldMap } from "../components/ui/world-map";
 import { Edit3 } from 'lucide-react'
+import bloggify from "../assets/bloggify.png"
 
 const LandingPage: React.FC = () => {
   const [isToken,setisToken] = useState(false)
@@ -20,20 +21,15 @@ const LandingPage: React.FC = () => {
   return (
     <div className="bg-black text-white min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="relative z-10 flex justify-between items-center px-6 py-6 max-w-7xl mx-auto w-full">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center">
-            <Edit3 className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
-            Bloggify
-          </span>
+      <nav className="relative z-10 flex justify-between items-center px-4 py-4 max-w-7xl  w-full">
+        <div className="flex items-center space-x-3">
+            <img src={bloggify} alt="Bloggify Logo" className="h-10 w-auto" />  
         </div>
-        <div className="hidden md:flex space-x-8 text-gray-300">
+        {/* <div className="hidden md:flex space-x-8 text-gray-300">
           <a href="#features" className="hover:text-white transition-colors cursor-pointer">Features</a>
           <a href="#about" className="hover:text-white transition-colors cursor-pointer">About</a>
           <a href="#pricing" className="hover:text-white transition-colors cursor-pointer">Pricing</a>
-        </div>
+        </div> */}
       </nav>
       {/* Hero Section */}
       <header className="py-16 px-6 text-center">
@@ -116,7 +112,7 @@ const LandingPage: React.FC = () => {
 
       {/* Footer */}
       <footer className="bg-zinc-950 text-center py-6 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Bloggify.dev — Built with 💻 and ☕ by Inshamul
+        © {new Date().getFullYear()} Bloggify.dev — Built with 💻 and ☕
       </footer>
     </div>
   );
