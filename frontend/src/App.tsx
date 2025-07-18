@@ -4,7 +4,7 @@ import { Signin } from './pages/signin'
 import { Blog } from './pages/blog'
 import  Blogs from './pages/blogs'
 import { Createblog } from './pages/createBlog'
-import { Edit } from './pages/edit'
+import  Edit  from './pages/edit'
 import LandingPage from './pages/landing_page'
 import { Loader } from './pages/Loader'
 

@@ -46,4 +46,15 @@ export async function getUserBlogs(req: Request, res: Response) {
     } catch (error) {
         return res.status(500).json({ message: "Failed to fetch user blogs", error });
     }
+export async function createBlog(){
+
+}
+export async function editBlog(){
+
+}
+export async function deleteBlog(){
+
+}
+export async function getBlogs(){
+    
 }

@@ -8,17 +8,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const db_1 = require("./db");
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const openai_1 = __importDefault(require("openai"));
+const blocknote_1 = require("./middleware.ts/blocknote");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 (0, db_1.connectToDB)();
 // auth checkpoints
 app.get("/auth/github", (req, res) => {
@@ -44,6 +66,70 @@ app.get("/auth/github/callback", (req, res) => __awaiter(void 0, void 0, void 0,
     catch (err) {
         console.error(err);
         res.status(500).send("GitHub auth failed");
+    }
+}));
+// blocknote ai checkpoints
+// Initialize OpenAI client
+const openai = new openai_1.default({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+// Custom API key validation middleware
+// AI completion endpoint for BlockNote
+app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, e_1, _b, _c;
+    try {
+        const { provider, url } = req.query;
+        const _d = req.body, { messages, model = 'gpt-4o-mini', stream = false } = _d, otherParams = __rest(_d, ["messages", "model", "stream"]);
+        console.log('AI request received:', { provider, url, model, stream });
+        // Handle OpenAI requests
+        if (provider === 'openai' && url === 'https://api.openai.com/v1/chat/completions') {
+            if (stream) {
+                // Handle streaming requests
+                const streamResponse = yield openai.chat.completions.create(Object.assign({ model,
+                    messages, stream: true }, otherParams));
+                res.setHeader('Content-Type', 'text/event-stream');
+                res.setHeader('Cache-Control', 'no-cache');
+                res.setHeader('Connection', 'keep-alive');
+                try {
+                    //@ts-ignore
+                    for (var _e = true, streamResponse_1 = __asyncValues(streamResponse), streamResponse_1_1; streamResponse_1_1 = yield streamResponse_1.next(), _a = streamResponse_1_1.done, !_a; _e = true) {
+                        _c = streamResponse_1_1.value;
+                        _e = false;
+                        const chunk = _c;
+                        res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+                    }
+                }
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (!_e && !_a && (_b = streamResponse_1.return)) yield _b.call(streamResponse_1);
+                    }
+                    finally { if (e_1) throw e_1.error; }
+                }
+                res.write('data: [DONE]\n\n');
+                res.end();
+            }
+            else {
+                // Handle regular completion requests
+                const completion = yield openai.chat.completions.create(Object.assign({ model,
+                    messages }, otherParams));
+                res.json(completion);
+            }
+        }
+        else {
+            res.status(400).json({
+                error: 'Unsupported provider or URL',
+                provider,
+                url
+            });
+        }
+    }
+    catch (error) {
+        console.error('AI completion error:', error);
+        res.status(500).json({
+            error: 'AI completion failed',
+            details: error.message
+        });
     }
 }));
 // health checkpoint

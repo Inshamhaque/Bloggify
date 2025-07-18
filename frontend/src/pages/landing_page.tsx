@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { WorldMap } from "../components/ui/world-map";
-import { Edit3 } from 'lucide-react'
+import { Edit3, Github } from 'lucide-react'
 import bloggify from "../assets/bloggify.png"
 
 const LandingPage: React.FC = () => {
@@ -43,7 +43,16 @@ const LandingPage: React.FC = () => {
           }}
           className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
         >
-          {isToken==true?"Go to Dashboard":"Sign in with Github"}
+          <div className="flex items-center justify-center space-x-2">
+            {isToken ? (
+              <span>Go to Dashboard</span>
+            ) : (
+              <>
+                <span>Sign in with GitHub</span>
+                <Github className="w-5 h-5" />
+              </>
+            )}
+          </div>
         </button>
       </header>
 

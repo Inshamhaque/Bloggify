@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+<<<<<<< HEAD
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -61,5 +62,26 @@ function getUserBlogs(req, res) {
         catch (error) {
             return res.status(500).json({ message: "Failed to fetch user blogs", error });
         }
+=======
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createBlog = createBlog;
+exports.editBlog = editBlog;
+exports.deleteBlog = deleteBlog;
+exports.getBlogs = getBlogs;
+function createBlog() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+function editBlog() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+function deleteBlog() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+function getBlogs() {
+    return __awaiter(this, void 0, void 0, function* () {
+>>>>>>> 0a752a40dbf57b779b739c6ba8c879cc3dded78a
     });
 }
