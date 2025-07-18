@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import bloggify from "../assets/bloggify.png"
 
 // TODO : add zod validation with reference to the server schema of user
 export default function GitHubNavbar() {
@@ -26,7 +27,7 @@ export default function GitHubNavbar() {
 
   return (
     <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
-      <div className="text-2xl font-bold tracking-wide">Bloggify</div>
+      <img  className="h-10 w-auto" src={bloggify} alt="" />
 
       {user && (
         <div className="flex items-center gap-4">
