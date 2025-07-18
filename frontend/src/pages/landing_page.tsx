@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { WorldMap } from "../components/ui/world-map";
 import { Edit3 } from 'lucide-react'
 
 const LandingPage: React.FC = () => {
+  const [isToken,setisToken] = useState(false)
+  const handleGithubLogin  = ()=>{
+    window.location.href = "http://localhost:3001/auth/github"
+  }
+  const GotoDashboard = ()=>{
+    window.location.href = "/blogs"
+  }
+  useEffect(()=>{
+    const githubToken = localStorage.getItem("token");
+    if(githubToken){
+      setisToken(true)
+    }
+  },[])
   return (
     <div className="bg-black text-white min-h-screen flex flex-col">
       {/* Navigation */}
@@ -28,12 +41,14 @@ const LandingPage: React.FC = () => {
         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Your personalized blogging platform powered by GitHub. Write, publish, and share your thoughts with the world.
         </p>
-        <Link
-          to="/auth/github"
+        <button
+          onClick={()=>{
+            isToken?GotoDashboard():handleGithubLogin()
+          }}
           className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
         >
-          Sign in with GitHub
-        </Link>
+          {isToken==true?"Go to Dashboard":"Sign in with Github"}
+        </button>
       </header>
 
       {/* World Map Animation */}

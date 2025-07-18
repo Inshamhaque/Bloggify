@@ -6,6 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userModel = exports.userSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.userSchema = new mongoose_1.default.Schema({
+    githubUserid: {
+        type: String,
+        required: true,
+        uniqe: true,
+    },
     name: {
         type: String,
         required: true
