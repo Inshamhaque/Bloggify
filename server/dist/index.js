@@ -79,7 +79,7 @@ app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void
     var _a, e_1, _b, _c;
     try {
         const { provider, url } = req.query;
-        const _d = req.body, { messages, model = 'gpt-4', stream = false } = _d, otherParams = __rest(_d, ["messages", "model", "stream"]);
+        const _d = req.body, { messages, model = 'gpt-4o-mini', stream = false } = _d, otherParams = __rest(_d, ["messages", "model", "stream"]);
         console.log('AI request received:', { provider, url, model, stream });
         // Handle OpenAI requests
         if (provider === 'openai' && url === 'https://api.openai.com/v1/chat/completions') {

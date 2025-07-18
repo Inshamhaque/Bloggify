@@ -62,7 +62,7 @@ const openai = new OpenAI({
 app.post('/ai', validateApiKey, async (req, res) => {
   try {
     const { provider, url } = req.query;
-    const { messages, model = 'gpt-4', stream = false, ...otherParams } = req.body;
+    const { messages, model = 'gpt-4o-mini', stream = false, ...otherParams } = req.body;
     
     console.log('AI request received:', { provider, url, model, stream });
     
