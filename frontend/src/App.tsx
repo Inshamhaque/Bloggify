@@ -3,7 +3,7 @@ import { Signup } from './pages/signup'
 import { Signin } from './pages/signin'
 import { Blog } from './pages/blog'
 import  Blogs from './pages/blogs'
-import { Createblog } from './pages/createBlog'
+import Create  from './pages/createBlog'
 import  Edit  from './pages/edit'
 import LandingPage from './pages/landing_page'
 import { Loader } from './pages/Loader'
@@ -22,7 +22,7 @@ function App() {
           {/* returning all blogs  */}
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/edit" element={<Edit/>} />
-          <Route path='/createblog' element={<Createblog/>}></Route>
+          <Route path='/create' element={<Create/>}></Route>
         </Routes>
       </BrowserRouter>
     </>

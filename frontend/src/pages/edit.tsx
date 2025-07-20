@@ -37,7 +37,8 @@ const model = createOpenAI({
   ...client.getProviderSettings("openai"),
 })("gpt-4o-mini", {});
 
-export default function CreateBlog() {
+// fetch the current contents of the blog and pass in the state
+export default function Editlog() {
   // Creates a new editor instance with AI extension
   const editor = useCreateBlockNote({
     dictionary: {
@@ -57,7 +58,7 @@ export default function CreateBlog() {
         props: {
           level: 1,
         },
-        content: "✨ Start Writing Your Blog",
+        content: "✨ Start Editing Your Blog",
       },
       {
         type: "paragraph",
