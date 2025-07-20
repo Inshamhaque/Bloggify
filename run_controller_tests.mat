@@ -1,0 +1,55 @@
+
+
+clear all;
+close all;
+clc;
+
+choice = 0; 
+
+% Set the Kp, Ki, Kd parameters based on the choice
+if choice == 0
+    fprintf('Controller C1 (Stable, may overshoot) selected.\n');
+    % Parameters for C1
+	Kp = -20.8521889762703;
+	Ki = -19.9734819620964;
+	Kd = -0.820834909861585;
+else
+    fprintf('Controller C2 (No overshoot, may be slower) selected.\n');
+    % Parameters for C2
+	Kp = -40.538537545704;
+	Ki = -480.05253443786;
+	Kd = -0.568215123958253;
+end
+
+init_watertank;
+Bpid = pb_watertank.create_nominal();
+Bpid.QuasiRandomSample(10000);
+Bpid.Sim();
+
+fprintf('Simulations complete.\n');
+
+STL_ReadFile req_watertank.stl;
+
+% Test 1: Overshoot Property (phi_ov)
+fprintf('Testing Overshoot Property (phi_ov)...\n');
+R_ov = BreachRequirement('phi_ov');
+R_ov.Eval(Bpid);
+
+% Plot the results for the overshoot test
+figure; % Creates a new window for this plot
+BreachSamplesPlot(R_ov);
+title(['Overshoot Test Results for Controller C' num2str(choice + 1)]);
+ylabel('Robustness');
+
+% Test 2: Stabilization Property (phi_stab)
+fprintf('Testing Stabilization Property (phi_stab)...\n');
+R_stab = BreachRequirement('phi_stab');
+R_stab.Eval(Bpid);
+
+% Plot the results for the stabilization test
+figure; % Creates another new window for this plot
+BreachSamplesPlot(R_stab);
+title(['Stabilization Test Results for Controller C' num2str(choice + 1)]);
+ylabel('Robustness');
+
+fprintf('All tests are complete. Check the two plot windows for results.\n');

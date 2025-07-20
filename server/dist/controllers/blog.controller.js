@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-<<<<<<< HEAD
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,17 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBlog = createBlog;
 exports.getAllBlogs = getAllBlogs;
 exports.getUserBlogs = getUserBlogs;
+exports.editBlog = editBlog;
+exports.deleteBlog = deleteBlog;
 const blog_model_1 = require("../models/blog.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 function createBlog(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { title, subtitle, content, userId } = req.body;
-        if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({ message: "Invalid user ID" });
-        }
         try {
             const newBlog = yield blog_model_1.blogModel.create({
-                user: userId,
+                user: req.userId,
                 title,
                 subtitle,
                 content
@@ -51,6 +49,7 @@ function getAllBlogs(req, res) {
 }
 function getUserBlogs(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        // TODO: adding a middleware and settings the userId there only, not here
         const { userId } = req.params;
         if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ message: "Invalid user ID" });
@@ -62,14 +61,6 @@ function getUserBlogs(req, res) {
         catch (error) {
             return res.status(500).json({ message: "Failed to fetch user blogs", error });
         }
-=======
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBlog = createBlog;
-exports.editBlog = editBlog;
-exports.deleteBlog = deleteBlog;
-exports.getBlogs = getBlogs;
-function createBlog() {
-    return __awaiter(this, void 0, void 0, function* () {
     });
 }
 function editBlog() {
@@ -78,10 +69,5 @@ function editBlog() {
 }
 function deleteBlog() {
     return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-function getBlogs() {
-    return __awaiter(this, void 0, void 0, function* () {
->>>>>>> 0a752a40dbf57b779b739c6ba8c879cc3dded78a
     });
 }

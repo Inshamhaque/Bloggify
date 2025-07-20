@@ -37,6 +37,9 @@ const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const openai_1 = __importDefault(require("openai"));
 const blocknote_1 = require("./middleware.ts/blocknote");
+const blog_controller_1 = require("./controllers/blog.controller");
+const user_controller_1 = require("./controllers/user.controller");
+const auth_1 = require("./middleware.ts/auth");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
@@ -136,14 +139,22 @@ app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void
 app.get('/health', (req, res) => {
     res.send("server is running healthy");
 });
+// user login endpoint
+app.post('/user/login', (req, res) => {
+    (0, user_controller_1.login)(req, res);
+});
+// user profile endpoint
+app.get('/user/profile', (req, res) => {
+    (0, user_controller_1.getUser)(req, res);
+});
 // blog routes
 app.get('/blogs', (req, res) => {
     // list all blogs
 });
-app.post('/blog', (req, res) => {
-    // create a blog
+app.post('/blog', auth_1.auth, (req, res) => {
+    (0, blog_controller_1.createBlog)(req, res);
 });
-app.get('/blog/:id', (req, res) => {
+app.get('/blog/:id', auth_1.auth, (req, res) => {
 });
 // server listening here
 app.listen(3001, () => {

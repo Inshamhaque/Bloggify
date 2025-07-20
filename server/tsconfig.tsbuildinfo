@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/controllers/blog.controller.ts","./src/controllers/user.controller.ts","./src/db/index.ts","./src/middleware.ts/blocknote.ts","./src/models/blog.model.ts","./src/models/user.model.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/controllers/blog.controller.ts","./src/controllers/user.controller.ts","./src/db/index.ts","./src/middleware.ts/auth.ts","./src/middleware.ts/blocknote.ts","./src/models/blog.model.ts","./src/models/user.model.ts"],"version":"5.8.2"}

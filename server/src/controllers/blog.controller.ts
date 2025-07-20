@@ -2,17 +2,14 @@ import {Request, Response} from "express"
 import { blogModel } from "../models/blog.model"
 import { userModel } from "../models/user.model"
 import mongoose from "mongoose"
+import { AuthRequest } from "../middleware.ts/auth";
 
-export async function createBlog(req: Request, res: Response) {
+export async function createBlog(req: AuthRequest, res: Response) {
     const { title, subtitle, content, userId } = req.body;
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: "Invalid user ID" });
-    }
 
     try {
         const newBlog = await blogModel.create({
-            user: userId,
+            user: req.userId,
             title,
             subtitle,
             content
@@ -34,6 +31,7 @@ export async function getAllBlogs(req: Request, res: Response) {
 }
 
 export async function getUserBlogs(req: Request, res: Response) {
+    // TODO: adding a middleware and settings the userId there only, not here
     const { userId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -46,15 +44,11 @@ export async function getUserBlogs(req: Request, res: Response) {
     } catch (error) {
         return res.status(500).json({ message: "Failed to fetch user blogs", error });
     }
-export async function createBlog(){
-
 }
+
 export async function editBlog(){
 
 }
 export async function deleteBlog(){
 
-}
-export async function getBlogs(){
-    
 }
