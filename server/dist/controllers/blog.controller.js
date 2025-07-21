@@ -39,11 +39,24 @@ function createBlog(req, res) {
 function getAllBlogs(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const blogs = yield blog_model_1.blogModel.find().populate("user", "name email avatarUrl");
-            return res.status(200).json({ blogs });
+            const blogs = yield blog_model_1.blogModel.find().populate("user");
+            if (!blogs) {
+                return res.json({
+                    message: "Not blogs found",
+                    status: 411
+                });
+            }
+            return res.json({
+                message: "blogs fetched successfully",
+                blogs,
+                status: 200
+            });
         }
-        catch (error) {
-            return res.status(500).json({ message: "Failed to fetch blogs", error });
+        catch (e) {
+            return res.json({
+                message: "some error occurred",
+                status: 500
+            });
         }
     });
 }

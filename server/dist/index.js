@@ -149,7 +149,7 @@ app.get('/user/profile', (req, res) => {
 });
 // blog routes
 app.get('/blogs', (req, res) => {
-    // list all blogs
+    (0, blog_controller_1.getAllBlogs)(req, res);
 });
 app.post('/blog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.createBlog)(req, res);

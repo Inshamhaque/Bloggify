@@ -22,11 +22,25 @@ export async function createBlog(req: AuthRequest, res: Response) {
 }
 
 export async function getAllBlogs(req: Request, res: Response) {
-    try {
-        const blogs = await blogModel.find().populate("user", "name email avatarUrl");
-        return res.status(200).json({ blogs });
-    } catch (error) {
-        return res.status(500).json({ message: "Failed to fetch blogs", error });
+    try{
+        const blogs = await blogModel.find().populate("user");
+        if(!blogs){
+            return res.json({
+                message : "Not blogs found",
+                status:411
+            })
+        }
+        return res.json({
+            message : "blogs fetched successfully",
+            blogs,
+            status : 200
+        })
+    }
+    catch(e){
+        return res.json({
+            message : "some error occurred",
+            status: 500
+        })
     }
 }
 

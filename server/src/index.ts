@@ -5,7 +5,7 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
-import { createBlog } from "./controllers/blog.controller";
+import { createBlog, getAllBlogs } from "./controllers/blog.controller";
 import { getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 const app = express();
@@ -132,7 +132,7 @@ app.get('/user/profile',(req,res)=>{
 })
 // blog routes
 app.get('/blogs',(req,res)=>{
-    // list all blogs
+    getAllBlogs(req,res);
 })
 app.post('/blog',auth,(req,res)=>{
     createBlog(req,res)

@@ -30,7 +30,7 @@ export default function GitHubNavbar() {
             Accept: "application/vnd.github+json",
           },
         });
-        setUser(response.data); // This will trigger the next useEffect
+        setUser(response.data);
       } catch (error) {
         console.error("Error fetching GitHub user:", error);
       }
@@ -60,6 +60,7 @@ export default function GitHubNavbar() {
             position: "top-right"
           });
         }
+        console.log(user)
         console.log("user authenticated")
       } catch (error) {
         console.error("Login failed:", error);
@@ -74,7 +75,7 @@ export default function GitHubNavbar() {
   }, [user]); 
 
   return (
-    <nav className=" justify-between bg-black text-white px-6 py-4 flex justify-between items-center shadow-md">
+    <nav className="bg-[#0a0a0a] text-white px-6 py-4 flex justify-between items-center shadow-md border-b border-gray-500">
       <div className="flex justify-between w-full">
       <img
         onClick={() => { window.location.href = '/' }}
