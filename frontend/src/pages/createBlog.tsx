@@ -79,10 +79,10 @@ export default function Editlog() {
       <h1 className="text-3xl font-bold mb-4 text-white">📝 Create New Blog</h1>
 
       {/* Editor */}
-      <div className="flex-1 overflow-hidden rounded-lg border border-gray-700">
+      <div className="flex-1 max-[70vh] overflow-auto rounded-lg border border-gray-700">
         <BlockNoteView
           editor={editor}
-          className="h-full"
+          className=" min-h-[400px] px-4 py-2 overflow-auto"
           theme="dark"
           // We're disabling some default UI elements to customize them
           formattingToolbar={false}

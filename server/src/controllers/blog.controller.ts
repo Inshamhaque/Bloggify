@@ -45,7 +45,6 @@ export async function getAllBlogs(req: Request, res: Response) {
 }
 
 export async function getUserBlogs(req: Request, res: Response) {
-    // TODO: adding a middleware and settings the userId there only, not here
     const { userId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -59,6 +58,11 @@ export async function getUserBlogs(req: Request, res: Response) {
         return res.status(500).json({ message: "Failed to fetch user blogs", error });
     }
 }
+
+export async function getBlogbyId(){
+
+}
+
 export async function editBlog(){
 
 // }
