@@ -76,9 +76,19 @@ export default function Editlog() {
       <GitHubNavbar />
 
       {/* Page Heading */}
-      <h1 className="text-3xl font-bold mb-4 text-white px-4 pt-4">
+      
+
+      <div className="mt-4 flex justify-between  px-4 py-2">
+        <h1 className="text-3xl font-bold mb-4 text-white px-4 pt-4">
         📝 Edit existing Blog
       </h1>
+        <button
+          onClick={handleSave}
+          className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Save Blog
+        </button>
+      </div>
 
       {/* Editor Container */}
       <div className="flex-1 max-h-[70vh] overflow-auto rounded-lg border border-gray-700 mx-4">
@@ -101,14 +111,7 @@ export default function Editlog() {
       </div>
 
       {/* Save Button */}
-      <div className="mt-4 flex justify-end px-4 py-2">
-        <button
-          onClick={handleSave}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Save Blog
-        </button>
-      </div>
+
     </div>
   );
 }

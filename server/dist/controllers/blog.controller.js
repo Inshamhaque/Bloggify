@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBlog = createBlog;
 exports.getAllBlogs = getAllBlogs;
 exports.getUserBlogs = getUserBlogs;
+exports.getBlogbyId = getBlogbyId;
 exports.editBlog = editBlog;
-exports.deleteBlog = deleteBlog;
+exports.getBlogs = getBlogs;
 const blog_model_1 = require("../models/blog.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 function createBlog(req, res) {
@@ -62,7 +63,6 @@ function getAllBlogs(req, res) {
 }
 function getUserBlogs(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        // TODO: adding a middleware and settings the userId there only, not here
         const { userId } = req.params;
         if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ message: "Invalid user ID" });
@@ -76,22 +76,17 @@ function getUserBlogs(req, res) {
         }
     });
 }
-<<<<<<< HEAD
-// export async function createBlog(){
-// }
-// export async function editBlog(){
-// }
-// export async function deleteBlog(){
-// }
-// export async function getBlogs(){
-// }
-=======
+function getBlogbyId() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
 function editBlog() {
     return __awaiter(this, void 0, void 0, function* () {
+        // }
+        // export async function deleteBlog(){
     });
 }
-function deleteBlog() {
+function getBlogs() {
     return __awaiter(this, void 0, void 0, function* () {
     });
 }
->>>>>>> d20bdfd5db22cd31ced21a000eceb38dad8855b0
