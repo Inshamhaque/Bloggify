@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 export const userSchema = new mongoose.Schema({
     githubUserid:{
-        type: String, 
+        type:String,// better wud be to change to Number as oAuth sends that only 
         required : true,
         uniqe:true,
     },
@@ -15,9 +15,7 @@ export const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        required:true,
         lowercase:true,
-        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"]
     },
     avatarUrl:{
         type:String,
@@ -26,5 +24,9 @@ export const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    access_token:{
+        type:String,
+        required:true
+    }
 })
 export const userModel = mongoose.model("User",userSchema)

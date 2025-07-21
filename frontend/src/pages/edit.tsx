@@ -21,6 +21,7 @@ import {
 } from "@blocknote/xl-ai";
 import { en as aiEn } from "@blocknote/xl-ai/locales";
 import "@blocknote/xl-ai/style.css";
+import GitHubNavbar from "../components/Navbar";
 export const BLOCKNOTE_AI_SERVER_API_KEY="BLOCKNOTE_SECRET"
 export const BLOCKNOTE_AI_SERVER_BASE_URL="http://localhost:3001/ai"
 
@@ -36,7 +37,8 @@ const model = createOpenAI({
   ...client.getProviderSettings("openai"),
 })("gpt-4o-mini", {});
 
-export default function CreateBlog() {
+// fetch the current contents of the blog and pass in the state
+export default function Editlog() {
   // Creates a new editor instance with AI extension
   const editor = useCreateBlockNote({
     dictionary: {
@@ -56,7 +58,7 @@ export default function CreateBlog() {
         props: {
           level: 1,
         },
-        content: "✨ Start Writing Your Blog",
+        content: "✨ Start Editing Your Blog",
       },
       {
         type: "paragraph",
@@ -72,7 +74,8 @@ export default function CreateBlog() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-[#1e1e1e] text-white px-8 py-6">
+    <div className="h-screen flex flex-col bg-[#1e1e1e] text-white ">
+        <GitHubNavbar />
       {/* Header */}
       <h1 className="text-3xl font-bold mb-4 text-white">📝 Create New Blog</h1>
 

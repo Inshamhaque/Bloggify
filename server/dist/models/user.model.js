@@ -7,7 +7,7 @@ exports.userModel = exports.userSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.userSchema = new mongoose_1.default.Schema({
     githubUserid: {
-        type: String,
+        type: String, // better wud be to change to Number as oAuth sends that only 
         required: true,
         uniqe: true,
     },
@@ -21,9 +21,7 @@ exports.userSchema = new mongoose_1.default.Schema({
     },
     email: {
         type: String,
-        required: true,
         lowercase: true,
-        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"]
     },
     avatarUrl: {
         type: String,
@@ -32,5 +30,9 @@ exports.userSchema = new mongoose_1.default.Schema({
         type: String,
         default: "",
     },
+    access_token: {
+        type: String,
+        required: true
+    }
 });
 exports.userModel = mongoose_1.default.model("User", exports.userSchema);

@@ -5,6 +5,9 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
+import { createBlog, getAllBlogs } from "./controllers/blog.controller";
+import { getUser, login } from "./controllers/user.controller";
+import { auth } from "./middleware.ts/auth";
 const app = express();
 dotenv.config()
 app.use(express.json());
@@ -119,14 +122,22 @@ app.post('/ai', validateApiKey, async (req, res) => {
 app.get('/health',(req,res)=>{
     res.send("server is running healthy")
 })
+// user login endpoint
+app.post('/user/login',(req,res)=>{
+  login(req,res)
+})
+// user profile endpoint
+app.get('/user/profile',(req,res)=>{
+  getUser(req,res);
+})
 // blog routes
 app.get('/blogs',(req,res)=>{
-    // list all blogs
+    getAllBlogs(req,res);
 })
-app.post('/blog',(req,res)=>{
-    // create a blog
+app.post('/blog',auth,(req,res)=>{
+    createBlog(req,res)
 })
-app.get('/blog/:id',(req,res)=>{
+app.get('/blog/:id',auth,(req,res)=>{
 
 })
 // server listening here
