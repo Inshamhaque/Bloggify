@@ -7,6 +7,7 @@ import Create  from './pages/createBlog'
 import  Edit  from './pages/edit'
 import LandingPage from './pages/landing_page'
 import { Loader } from './pages/Loader'
+import  Preview from './pages/Preview'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/edit" element={<Edit/>} />
           <Route path='/create' element={<Create/>}></Route>
+          <Route path='/preview' element={< Preview/>} />
         </Routes>
       </BrowserRouter>
     </>

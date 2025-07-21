@@ -22,6 +22,7 @@ import {
 import { en as aiEn } from "@blocknote/xl-ai/locales";
 import "@blocknote/xl-ai/style.css";
 import GitHubNavbar from "../components/Navbar";
+
 export const BLOCKNOTE_AI_SERVER_API_KEY="BLOCKNOTE_SECRET"
 export const BLOCKNOTE_AI_SERVER_BASE_URL="http://localhost:3001/ai"
 
@@ -67,22 +68,38 @@ export default function Editlog() {
     ],
   });
 
-  const handleSave = () => {
-    const json = editor.document;
-    console.log("Blog content JSON:", json);
+  const handlePreview = () => {
+    const content = editor.document;
+    console.log("Storing blog content for preview:", content);
+    
+    // Store content in localStorage
+    localStorage.setItem("blogPreviewContent", JSON.stringify(content));
+    
+    // Navigate to preview page (you can use your routing method)
+    window.location.href = "/preview"; // or use your router
   };
 
   return (
     <div className="h-screen flex flex-col bg-[#1e1e1e] text-white ">
         <GitHubNavbar />
       {/* Header */}
-      <h1 className="text-3xl font-bold mb-4 text-white">📝 Create New Blog</h1>
+
+      <div className="mt-4 flex justify-between ">
+        <h1 className="text-3xl font-bold mb-4 text-white">📝 Create New Blog</h1>
+        <button
+          onClick={handlePreview}
+          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
+          Preview Blog
+        </button>
+      </div>
+      
 
       {/* Editor */}
-      <div className="flex-1 overflow-hidden rounded-lg border border-gray-700">
+      <div className="flex-1 max-[70vh] overflow-auto rounded-lg border border-gray-700">
         <BlockNoteView
           editor={editor}
-          className="h-full"
+          className=" min-h-[400px] px-4 py-2 overflow-auto"
           theme="dark"
           // We're disabling some default UI elements to customize them
           formattingToolbar={false}
@@ -105,15 +122,8 @@ export default function Editlog() {
         </BlockNoteView>
       </div>
 
-      {/* Save Button */}
-      <div className="mt-4 flex justify-end">
-        <button
-          onClick={handleSave}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Save Blog
-        </button>
-      </div>
+      {/* Preview Button */}
+      
     </div>
   );
 }
@@ -134,9 +144,7 @@ function FormattingToolbarWithAI() {
 }
 
 // Slash menu with the AI option added
-function SuggestionMenuWithAI(props: {
-  editor: BlockNoteEditor<any, any, any>;
-}) {
+function SuggestionMenuWithAI(props:any) {
   return (
     <SuggestionMenuController
       triggerCharacter="/"

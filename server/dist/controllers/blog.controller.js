@@ -15,8 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBlog = createBlog;
 exports.getAllBlogs = getAllBlogs;
 exports.getUserBlogs = getUserBlogs;
+exports.getBlogbyId = getBlogbyId;
 exports.editBlog = editBlog;
+<<<<<<< HEAD
 exports.getSingleBlogById = getSingleBlogById;
+=======
+exports.getBlogs = getBlogs;
+>>>>>>> 0ddb27788ed42f06dde7e56e923871bcec3fdfb7
 const blog_model_1 = require("../models/blog.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 function createBlog(req, res) {
@@ -62,7 +67,6 @@ function getAllBlogs(req, res) {
 }
 function getUserBlogs(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        // TODO: adding a middleware and settings the userId there only, not here
         const { userId } = req.params;
         if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ message: "Invalid user ID" });
@@ -76,14 +80,25 @@ function getUserBlogs(req, res) {
         }
     });
 }
+<<<<<<< HEAD
+=======
+function getBlogbyId() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+>>>>>>> 0ddb27788ed42f06dde7e56e923871bcec3fdfb7
 function editBlog() {
     return __awaiter(this, void 0, void 0, function* () {
         // }
         // export async function deleteBlog(){
     });
 }
+<<<<<<< HEAD
 // get blogs by id
 function getSingleBlogById(req, res) {
+=======
+function getBlogs() {
+>>>>>>> 0ddb27788ed42f06dde7e56e923871bcec3fdfb7
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params; // Get blog ID from URL parameters
