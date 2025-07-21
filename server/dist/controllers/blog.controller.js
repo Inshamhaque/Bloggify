@@ -16,7 +16,7 @@ exports.createBlog = createBlog;
 exports.getAllBlogs = getAllBlogs;
 exports.getUserBlogs = getUserBlogs;
 exports.editBlog = editBlog;
-exports.deleteBlog = deleteBlog;
+exports.getSingleBlogById = getSingleBlogById;
 const blog_model_1 = require("../models/blog.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 function createBlog(req, res) {
@@ -76,22 +76,35 @@ function getUserBlogs(req, res) {
         }
     });
 }
-<<<<<<< HEAD
-// export async function createBlog(){
-// }
-// export async function editBlog(){
-// }
-// export async function deleteBlog(){
-// }
-// export async function getBlogs(){
-// }
-=======
 function editBlog() {
     return __awaiter(this, void 0, void 0, function* () {
+        // }
+        // export async function deleteBlog(){
     });
 }
-function deleteBlog() {
+// get blogs by id
+function getSingleBlogById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { id } = req.params; // Get blog ID from URL parameters
+            const blog = yield blog_model_1.blogModel.findById(id).populate("user");
+            if (!blog) {
+                return res.json({
+                    message: "Blog not found",
+                    status: 404
+                });
+            }
+            return res.json({
+                message: "Blog fetched successfully",
+                blog,
+                status: 200
+            });
+        }
+        catch (e) {
+            return res.json({
+                message: "Some error occurred",
+                status: 500
+            });
+        }
     });
 }
->>>>>>> d20bdfd5db22cd31ced21a000eceb38dad8855b0

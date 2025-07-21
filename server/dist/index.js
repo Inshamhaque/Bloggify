@@ -155,6 +155,7 @@ app.post('/blog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.createBlog)(req, res);
 });
 app.get('/blog/:id', auth_1.auth, (req, res) => {
+    (0, blog_controller_1.getSingleBlogById)(req, res);
 });
 // server listening here
 app.listen(3001, () => {

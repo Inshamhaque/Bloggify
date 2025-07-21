@@ -65,6 +65,30 @@ export async function editBlog(){
 // export async function deleteBlog(){
 
 }
-export async function getBlogs(){
-    
+// get blogs by id
+export async function getSingleBlogById(req: Request, res: Response) {
+    try {
+        const { id } = req.params; // Get blog ID from URL parameters
+        
+        const blog = await blogModel.findById(id).populate("user");
+        
+        if (!blog) {
+            return res.json({
+                message: "Blog not found",
+                status: 404
+            });
+        }
+        
+        return res.json({
+            message: "Blog fetched successfully",
+            blog,
+            status: 200
+        });
+    }
+    catch (e) {
+        return res.json({
+            message: "Some error occurred",
+            status: 500
+        });
+    }
 }
