@@ -44,12 +44,12 @@ export async function getAllBlogs(req: Request, res: Response) {
     }
 }
 
-export async function getUserBlogs(req: Request, res: Response) {
-    const { userId } = req.params;
+export async function getUserBlogs(req: AuthRequest, res: Response) {
+    const userId  = req.userId;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: "Invalid user ID" });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ message: "Invalid user ID" });
+    // }
 
     try {
         const blogs = await blogModel.find({ user: userId }).populate("user", "name email");

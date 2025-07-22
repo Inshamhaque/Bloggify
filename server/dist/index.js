@@ -157,6 +157,9 @@ app.post('/blog', auth_1.auth, (req, res) => {
 app.get('/blog/:id', auth_1.auth, (req, res) => {
     (0, blog_controller_1.getSingleBlogById)(req, res);
 });
+app.get('/userblog', auth_1.auth, (req, res) => {
+    (0, blog_controller_1.getUserBlogs)(req, res);
+});
 // server listening here
 app.listen(3001, () => {
     console.log("server running at 3001");

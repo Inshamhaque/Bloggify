@@ -5,7 +5,7 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
-import { createBlog, getAllBlogs, getSingleBlogById } from "./controllers/blog.controller";
+import { createBlog, getAllBlogs, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
 import { getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 const app = express();
@@ -139,6 +139,9 @@ app.post('/blog',auth,(req,res)=>{
 })
 app.get('/blog/:id',auth,(req,res)=>{
     getSingleBlogById(req,res)
+})
+app.get('/userblog',auth,(req, res)=>{
+  getUserBlogs(req, res)
 })
 // server listening here
 app.listen(3001,()=>{
