@@ -2,57 +2,80 @@ import { useEffect, useState } from "react";
 import GitHubNavbar from "../components/Navbar";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { toast } from "react-toastify";
 
-export default function Preview() {
+export default function Preview({ content: propContent, onBackToEdit }: any) {
   const [content, setContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get content from localStorage
-    try {
-      const storedContent = localStorage.getItem("blogPreviewContent");
-      if (storedContent) {
-        const parsedContent = JSON.parse(storedContent);
-        setContent(parsedContent);
-      } else {
+    // Use prop content first, then fallback to localStorage
+    if (propContent) {
+      setContent(propContent);
+      setLoading(false);
+    } else {
+      // Get content from localStorage as fallback
+      try {
+        const storedContent = localStorage.getItem("blogPreviewContent");
+        if (storedContent) {
+          const parsedContent = JSON.parse(storedContent);
+          setContent(parsedContent);
+        } else {
+          setContent([
+            {
+              type: "paragraph",
+              content: "No content found to preview",
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error loading content:", error);
         setContent([
           {
             type: "paragraph",
-            content: "No content found to preview",
+            content: "Error loading content",
           },
         ]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error loading content:", error);
-      setContent([
-        {
-          type: "paragraph",
-          content: "Error loading content",
-        },
-      ]);
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [propContent]);
 
   const handleSave = async () => {
     if (content.length > 0) {
       console.log("Saving blog content:", content);
-      const blogContent = localStorage.getItem("blogPreviewContent");
+      // const blogContent = localStorage.getItem("blogPreviewContent");
       // give an api call to the backend
-      console.log("blogContent is : ",blogContent);
-    //   const response = await axios.post(`${BACKEND_URL}/blog`,{
-    //     title: blogContent[0].content.text,
-    //     content:blogContent,
-    //     subtitle:blogContent[1].content.text
-    //   })
+      console.log(content[0]);
+      const response = await axios.post(`${BACKEND_URL}/blog`,{
+        title: content[0],
+        content: content,
+        subtitle: content[1]
+      },{
+        headers : {
+          Authorization : localStorage.getItem("token")
+        }
+      })
+      if(response){
+        toast.success("Blogged saved!",{
+          position : "top-right"
+        })
+        // TODO : build this frontend
+        window.location.href = '/dashboard'
+        return
+      }
       alert("Blog saved successfully!");
       localStorage.removeItem("blogPreviewContent");
     }
   };
 
   const handleEdit = () => {
-    window.location.href = "/edit";
+    if (onBackToEdit) {
+      onBackToEdit(); // Use callback to go back to edit mode
+    } else {
+      window.location.href = "/edit"; // Fallback to navigation
+    }
   };
 
   // Function to render block content
@@ -335,7 +358,3 @@ export default function Preview() {
     </div>
   );
 }
-
-
-
-[{"id":"be6ca633-3ea3-4529-9b9b-1cb424d59156","type":"heading","props":{"textColor":"default","backgroundColor":"default","textAlignment":"left","level":1,"isToggleable":false},"content":[{"type":"text","text":"✨ Start Writing Your Blog","styles":{}}],"children":[]},{"id":"65111a70-a7b8-4d53-886d-c9508385e2ea","type":"paragraph","props":{"textColor":"default","backgroundColor":"default","textAlignment":"left"},"content":[{"type":"text","text":"Begin writing your blog post here. You can use AI features by typing '/' to open the slash menu or selecting text and clicking the AI button in the toolbar.","styles":{}}],"children":[]}]

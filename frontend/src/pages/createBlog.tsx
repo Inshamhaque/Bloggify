@@ -1,6 +1,7 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { BlockNoteEditor, filterSuggestionItems } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
+import { useState } from "react";
 import { en } from "@blocknote/core/locales";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
@@ -22,6 +23,7 @@ import {
 import { en as aiEn } from "@blocknote/xl-ai/locales";
 import "@blocknote/xl-ai/style.css";
 import GitHubNavbar from "../components/Navbar";
+import Preview from "./Preview"; // Import the Preview component
 
 export const BLOCKNOTE_AI_SERVER_API_KEY="BLOCKNOTE_SECRET"
 export const BLOCKNOTE_AI_SERVER_BASE_URL="http://localhost:3001/ai"
@@ -39,6 +41,9 @@ const model = createOpenAI({
 })("gpt-4o-mini", {});
 
 export default function Editlog() {
+  const [content, setContent] = useState();
+  const [changeToPreview, setChangeToPreview] = useState(false); 
+
   // Creates a new editor instance with AI extension
   const editor = useCreateBlockNote({
     dictionary: {
@@ -69,19 +74,28 @@ export default function Editlog() {
   });
 
   const handlePreview = () => {
-    const content = editor.document;
-    console.log("Storing blog content for preview:", content);
+    const editorContent = editor.document;
+    console.log("Storing blog content for preview:", editorContent);
     
-    // Store content in localStorage
-    localStorage.setItem("blogPreviewContent", JSON.stringify(content));
-    
-    // Navigate to preview page (you can use your routing method)
-    window.location.href = "/preview"; // or use your router
+    // Store content in state and localStorage
+    // TODO : try to find a correct type for this
+    //@ts-ignore
+    setContent(editorContent);
+    localStorage.setItem("blogPreviewContent", JSON.stringify(editorContent));
+    setChangeToPreview(true);
   };
+
+  const handleBackToEdit = () => {
+    setChangeToPreview(false);
+  };
+
+  if (changeToPreview) {
+    return <Preview content={content} onBackToEdit={handleBackToEdit} />;
+  }
 
   return (
     <div className="h-screen flex flex-col bg-[#1e1e1e] text-white ">
-        <GitHubNavbar />
+      <GitHubNavbar />
       {/* Header */}
 
       <div className="mt-4 flex justify-between ">
@@ -121,9 +135,6 @@ export default function Editlog() {
           <SuggestionMenuWithAI editor={editor} />
         </BlockNoteView>
       </div>
-
-      {/* Preview Button */}
-      
     </div>
   );
 }
@@ -144,7 +155,7 @@ function FormattingToolbarWithAI() {
 }
 
 // Slash menu with the AI option added
-function SuggestionMenuWithAI(props:any) {
+function SuggestionMenuWithAI(props: any) {
   return (
     <SuggestionMenuController
       triggerCharacter="/"

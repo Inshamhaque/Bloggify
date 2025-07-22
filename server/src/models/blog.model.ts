@@ -6,14 +6,14 @@ export const blogSchema = new mongoose.Schema({
         required:true
     },
     title:{
-        type:String,
+        type:Object,
         required:true,
     },
     subtitle:{
-        type:String,
+        type:Object,
     },
     content:{
-        type:String,
+        type:Object,
         required:true,
         minLength:[40,"Content must be at least 40 characters long"]
     }
