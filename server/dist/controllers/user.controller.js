@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = login;
 exports.getUser = getUser;
+exports.getProfile = getProfile;
 const user_model_1 = require("../models/user.model");
+const axios_1 = __importDefault(require("axios"));
 // this will be required in the first time only
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -68,5 +73,35 @@ function getUser(req, res) {
             profile: findUser,
             status: 200
         });
+    });
+}
+function getProfile(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { username } = req.body;
+        try {
+            //fetch the latest access token
+            const user = yield user_model_1.userModel.findOne({
+                githubUsername: username
+            }).select("access_token");
+            const access_token = user === null || user === void 0 ? void 0 : user.access_token;
+            // fetch the profile from github api
+            const response = yield axios_1.default.get("https://api.github.com/user", {
+                headers: {
+                    Authorization: `Bearer ${access_token} `,
+                    Accept: "application/vnd.github+json",
+                }
+            });
+            console.log(response.data);
+            return res.json({
+                data: response.data,
+                status: 200
+            });
+        }
+        catch (e) {
+            return res.json({
+                message: "error fetching profile",
+                status: 500
+            });
+        }
     });
 }

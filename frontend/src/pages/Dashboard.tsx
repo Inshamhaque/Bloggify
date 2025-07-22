@@ -76,6 +76,7 @@ export default function Dashboard() {
                 <CardItem
                   translateZ={30}
                   className="text-2xl font-semibold text-white mb-2 truncate"
+                  style={{ minHeight: "48px", maxHeight: "48px" }}
                 >
                   {
                     getTextContent(blog.title?.content).length > 20
@@ -86,8 +87,13 @@ export default function Dashboard() {
                 <CardItem
                   translateZ={20}
                   className="text-sm text-gray-400 mb-3 line-clamp-2"
+                  style={{ minHeight: "48px", maxHeight: "48px" }}
                 >
-                  {getTextContent(blog.subtitle?.content)}
+                  {
+                  getTextContent(blog.subtitle?.content).length > 100
+                    ? getTextContent(blog.subtitle?.content).slice(0, 100) + '...'
+                    : getTextContent(blog.subtitle?.content)
+                  }
                 </CardItem>
                 <CardItem translateZ={20} className="mb-4 rounded-xl overflow-hidden">
                   <img

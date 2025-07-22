@@ -77,7 +77,8 @@ export default function Blogs() {
               <CardBody className="bg-[#1a1a1a] hover:bg-[#262626] transition-all duration-300 shadow-lg rounded-2xl p-5 border border-gray-800">
                 <CardItem
                   translateZ={30}
-                  className="text-2xl font-semibold text-white mb-2 truncate"
+                  className="text-2xl min-h-[10px] font-semibold text-white mb-2 truncate"
+                  style={{ minHeight: "48px", maxHeight: "48px" }}
                 >
                   {
                   getTextContent(blog.title?.content).length > 20
@@ -88,8 +89,13 @@ export default function Blogs() {
                 <CardItem
                   translateZ={20}
                   className="text-sm text-gray-400 mb-3 line-clamp-2"
+                  style={{ minHeight: "48px", maxHeight: "48px" }}
                 >
-                  {getTextContent(blog.subtitle?.content)}
+                  {
+                  getTextContent(blog.subtitle?.content).length > 100
+                    ? getTextContent(blog.subtitle?.content).slice(0, 100) + '...'
+                    : getTextContent(blog.subtitle?.content)
+                  }
                 </CardItem>
                 <CardItem translateZ={20} className="mb-4 rounded-xl overflow-hidden">
                   <img

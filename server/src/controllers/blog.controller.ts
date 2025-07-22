@@ -52,7 +52,7 @@ export async function getUserBlogs(req: AuthRequest, res: Response) {
     // }
 
     try {
-        const blogs = await blogModel.find({ user: userId }).populate("user", "name email");
+        const blogs = await blogModel.find({ user: userId }).populate("user");
         return res.status(200).json({ blogs });
     } catch (error) {
         return res.status(500).json({ message: "Failed to fetch user blogs", error });

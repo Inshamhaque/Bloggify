@@ -70,6 +70,7 @@ export default function GitHubNavbar() {
     };
 
     loginUser();
+    console.log(user)
   }, [user]);
 
   const handleLogout = () => {
@@ -115,6 +116,9 @@ export default function GitHubNavbar() {
               </div>
               <img
                 src={user.avatar_url}
+                onClick={()=>{
+                  window.location.href=`/u/${user.name}`
+                }}
                 alt="GitHub avatar"
                 className="w-10 h-10 rounded-full border-2 border-white hover:scale-105 transition"
               />

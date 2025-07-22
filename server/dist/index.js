@@ -40,6 +40,7 @@ const blocknote_1 = require("./middleware.ts/blocknote");
 const blog_controller_1 = require("./controllers/blog.controller");
 const user_controller_1 = require("./controllers/user.controller");
 const auth_1 = require("./middleware.ts/auth");
+const medium_controller_1 = require("./controllers/medium.controller");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
@@ -143,9 +144,9 @@ app.get('/health', (req, res) => {
 app.post('/user/login', (req, res) => {
     (0, user_controller_1.login)(req, res);
 });
-// user profile endpoint
+// user profile endpoint -- public endpoint
 app.get('/user/profile', (req, res) => {
-    (0, user_controller_1.getUser)(req, res);
+    (0, user_controller_1.getProfile)(req, res);
 });
 // blog routes
 app.get('/blogs', (req, res) => {
@@ -159,6 +160,10 @@ app.get('/blog/:id', auth_1.auth, (req, res) => {
 });
 app.get('/userblog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.getUserBlogs)(req, res);
+});
+// medium blogs
+app.get('/user/medium', (req, res) => {
+    (0, medium_controller_1.medium_integration)(req, res);
 });
 // server listening here
 app.listen(3001, () => {

@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import mongoose from "mongoose";
 import { userModel } from "../models/user.model";
+import axios from "axios";
+import { AuthRequest } from "../middleware.ts/auth";
 // this will be required in the first time only
 export async function login(req:Request, res:Response){
     try{
@@ -55,4 +57,34 @@ export async function getUser(req:Request, res:Response){
         profile : findUser,
         status : 200
     })
+}
+export async function getProfile(req:AuthRequest,res:Response){
+    const { username } = req.body;
+    try{
+        //fetch the latest access token
+        const user = await userModel.findOne({
+            githubUsername : username
+        }).select("access_token");
+        const access_token  = user?.access_token
+
+        // fetch the profile from github api
+        const response = await axios.get("https://api.github.com/user", {
+            headers: {
+            Authorization: `Bearer ${access_token} `,
+            Accept: "application/vnd.github+json",
+            }
+        })
+        console.log(response.data)
+        return res.json({
+            data : response.data,
+            status:200
+        })
+    }   
+    catch(e){
+        return res.json({
+            message : "error fetching profile",
+            status : 500
+        })
+    }
+
 }

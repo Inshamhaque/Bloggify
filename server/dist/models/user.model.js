@@ -9,7 +9,7 @@ exports.userSchema = new mongoose_1.default.Schema({
     githubUserid: {
         type: String, // better wud be to change to Number as oAuth sends that only 
         required: true,
-        uniqe: true,
+        unique: true,
     },
     name: {
         type: String,
@@ -17,7 +17,8 @@ exports.userSchema = new mongoose_1.default.Schema({
     },
     githubUsername: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     email: {
         type: String,

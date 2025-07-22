@@ -27,8 +27,9 @@ function App() {
           <Route path="/edit" element={<Edit/>} />
           <Route path='/create' element={<Create/>}></Route>
           <Route path='/preview' element={< Preview/>} />
-          <Route path="/dashboard" element ={<Dashboard/>}/>
-          <Route path="/profile" element = {<Profile/>}/>
+          <Route path='/dashboard' element={< Dashboard />} />
+          {/* user profile paths = */}
+          <Route path='/u/:id' element />
         </Routes>
       </BrowserRouter>
     </>

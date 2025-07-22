@@ -64,7 +64,7 @@ function getUserBlogs(req, res) {
         //     return res.status(400).json({ message: "Invalid user ID" });
         // }
         try {
-            const blogs = yield blog_model_1.blogModel.find({ user: userId }).populate("user", "name email");
+            const blogs = yield blog_model_1.blogModel.find({ user: userId }).populate("user");
             return res.status(200).json({ blogs });
         }
         catch (error) {

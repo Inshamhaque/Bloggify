@@ -6,8 +6,9 @@ import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
 import { createBlog, getAllBlogs, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
-import { getUser, login } from "./controllers/user.controller";
+import { getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
+import { medium_integration } from "./controllers/medium.controller";
 const app = express();
 dotenv.config()
 app.use(express.json());
@@ -126,9 +127,9 @@ app.get('/health',(req,res)=>{
 app.post('/user/login',(req,res)=>{
   login(req,res)
 })
-// user profile endpoint
+// user profile endpoint -- public endpoint
 app.get('/user/profile',(req,res)=>{
-  getUser(req,res);
+  getProfile(req,res);
 })
 // blog routes
 app.get('/blogs',(req,res)=>{
@@ -142,6 +143,10 @@ app.get('/blog/:id',auth,(req,res)=>{
 })
 app.get('/userblog',auth,(req, res)=>{
   getUserBlogs(req, res)
+})
+// medium blogs
+app.get('/user/medium',(req,res)=>{
+  medium_integration(req,res);
 })
 // server listening here
 app.listen(3001,()=>{
