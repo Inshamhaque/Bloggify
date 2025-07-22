@@ -9,6 +9,7 @@ import LandingPage from './pages/landing_page'
 import { Loader } from './pages/Loader'
 import  Preview from './pages/Preview'
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path='/create' element={<Create/>}></Route>
           <Route path='/preview' element={< Preview/>} />
           <Route path="/dashboard" element ={<Dashboard/>}/>
+          <Route path="/profile" element = {<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>
