@@ -77,7 +77,11 @@ export default function Dashboard() {
                   translateZ={30}
                   className="text-2xl font-semibold text-white mb-2 truncate"
                 >
-                  {getTextContent(blog.title?.content)}
+                  {
+                    getTextContent(blog.title?.content).length > 20
+                    ? getTextContent(blog.title?.content).slice(0, 30) + '...'
+                    : getTextContent(blog.title?.content)
+                  }
                 </CardItem>
                 <CardItem
                   translateZ={20}
