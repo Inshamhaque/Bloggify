@@ -34,6 +34,14 @@ exports.userSchema = new mongoose_1.default.Schema({
     access_token: {
         type: String,
         required: true
+    },
+    mediumIntegrated: {
+        type: Boolean,
+        default: false
+    },
+    hashNodeIntegrated: {
+        type: Boolean,
+        default: false
     }
 });
 exports.userModel = mongoose_1.default.model("User", exports.userSchema);

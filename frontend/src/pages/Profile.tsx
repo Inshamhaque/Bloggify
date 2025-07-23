@@ -2,6 +2,7 @@
 import GitHubNavbar from "../components/Navbar";
 import { useEffect, useState } from 'react';
 import { Users, GitFork, Star, Link, ArrowRight, Mail, MapPin, Briefcase } from 'lucide-react';
+import { Rss, Link2, CheckCircle2, PlugZap } from 'lucide-react';
 import { useParams } from "react-router-dom";
 import { CardContainer, CardItem, CardBody } from "../components/ui/3d-card";
 import { toast, ToastContainer } from "react-toastify";
@@ -16,8 +17,11 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(null);
+  const [ismedium, setismedium] = useState(false);
+  const [ishashnode, setishashnode] = useState(false);
   const [integrationUsername, setIntegrationUsername] = useState("");
   const [integrating, setIntegrating] = useState(false);
+  const [medumBlogs,setmediumBlogs] = useState([])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,6 +45,8 @@ export default function Profile() {
       try {
         const response = await axios.post(`${BACKEND_URL}/user/profile`, { username });
         setUser(response.data.data);
+        setishashnode(response.data.hasnodeStatus);
+        setismedium(response.data.mediumStatus);
       } catch (err) {
         console.error("GitHub API Error:", err);
       }
@@ -52,9 +58,15 @@ export default function Profile() {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
+        // fetch bloggify blogs
         const response = await axios.post(`${BACKEND_URL}/user/blog`, { username });
         if (response.status === 404) toast.error("No user present");
         setBlogs(response.data.blogs || []);
+        // fetch medum blogs
+        const response2 = await axios.post(`${BACKEND_URL}/user/medium/blogs`,{
+            username
+        })
+        setmediumBlogs(response2.data.mediumBlogs)
       } catch (err) {
         toast.error("Failed to fetch blogs");
         setBlogs([]);
@@ -71,7 +83,16 @@ export default function Profile() {
   };
 
   const handleIntegrate = async () => {
-    setIntegrating(true);
+    const response = await axios.post(`${BACKEND_URL}/user/medium`,{
+        mediumusername : integrationUsername, 
+        username 
+    })
+    if(res.data.status==500){
+        return toast.error("error in integration",{
+            position : "top-right"
+        })
+    }
+
     setTimeout(() => {
       toast.success("Integrated successfully!",{
         position:"top-right",
@@ -143,12 +164,48 @@ export default function Profile() {
 
 
 
-        {viewMode === 'owner' && (
-          <div className="flex gap-4 mt-6 justify-center">
-            <button onClick={() => setModalOpen('medium')} className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700">Integrate Medium</button>
-            <button onClick={() => setModalOpen('hashnode')} className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700">Integrate Hashnode</button>
-          </div>
-        )}
+        
+
+{viewMode === 'owner' && (
+  <div className="flex gap-6 mt-6 justify-center">
+    {/* Medium Integration */}
+    <button
+      onClick={() => setModalOpen('medium')}
+      className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
+    >
+      {ismedium ? (
+        <>
+          <CheckCircle2 className="text-green-400 w-5 h-5" />
+          Medium Integrated
+        </>
+      ) : (
+        <>
+          <Rss className="text-yellow-300 w-5 h-5" />
+          Integrate Medium
+        </>
+      )}
+    </button>
+
+    {/* Hashnode Integration */}
+    <button
+      onClick={() => setModalOpen('hashnode')}
+      className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
+    >
+      {ishashnode ? (
+        <>
+          <CheckCircle2 className="text-green-400 w-5 h-5" />
+          Hashnode Integrated
+        </>
+      ) : (
+        <>
+          <PlugZap className="text-blue-400 w-5 h-5" />
+          Integrate Hashnode
+        </>
+      )}
+    </button>
+  </div>
+)}
+
       </div>
 
       {/* bloggify blogs sect */}
@@ -205,6 +262,53 @@ export default function Profile() {
                 ))
               )}
             </div>
+
+    <div className="mx-auto px-4 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  {medumBlogs.length === 0 ? (
+    <div className="col-span-full text-center py-12">
+      <h2 className="text-2xl font-semibold text-gray-400">No blogs found</h2>
+      <p className="text-gray-500 mt-2">Be the first to create a blog!</p>
+    </div>
+  ) : (
+    medumBlogs.map((blog, idx) => (
+      <CardContainer key={blog._id || idx}>
+        <CardBody className="bg-[#1a1a1a] hover:bg-[#262626] transition-all duration-300 shadow-xl rounded-2xl p-6 border border-gray-800 flex flex-col h-full justify-between">
+          <div>
+            <CardItem
+              translateZ={30}
+              className="text-xl font-semibold text-white mb-3 truncate"
+              style={{ minHeight: "48px", maxHeight: "48px" }}
+            >
+              {blog.title?.slice(0, 28) + "..." || "Untitled"}
+            </CardItem>
+
+            <CardItem
+              translateZ={20}
+              className="text-sm text-gray-400 mb-4 line-clamp-3"
+              style={{ minHeight: "60px", maxHeight: "60px" }}
+            >
+              {blog.description?.slice(0, 100) || "No description"}...
+            </CardItem>
+          </div>
+
+          <CardItem translateZ={15}>
+            {/* ❌ Don't use <Link> for external links */}
+            <a
+              href={blog.link || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm font-semibold text-blue-400 hover:text-blue-300 transition"
+            >
+              Read <ArrowRight size={16} className="ml-1" />
+            </a>
+          </CardItem>
+        </CardBody>
+      </CardContainer>
+    ))
+  )}
+</div>
+
+
 
 
       {modalOpen && (

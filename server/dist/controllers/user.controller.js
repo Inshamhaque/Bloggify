@@ -83,8 +83,9 @@ function getProfile(req, res) {
             //fetch the latest access token
             const user = yield user_model_1.userModel.findOne({
                 githubUsername: username
-            }).select("access_token");
+            });
             const access_token = user === null || user === void 0 ? void 0 : user.access_token;
+            console.log(user);
             // fetch the profile from github api
             const response = yield axios_1.default.get("https://api.github.com/user", {
                 headers: {
@@ -95,6 +96,8 @@ function getProfile(req, res) {
             console.log(response.data);
             return res.json({
                 data: response.data,
+                mediumStatus: user === null || user === void 0 ? void 0 : user.mediumIntegrated,
+                hashnodeStatus: user === null || user === void 0 ? void 0 : user.hashNodeIntegrated,
                 status: 200
             });
         }
@@ -118,7 +121,6 @@ function distinguishUser(req, res) {
                 message: "User not authorized",
             });
         }
-        // ✅ Match both access_token and username
         const check = yield user_model_1.userModel.findOne({
             access_token: token,
             githubUsername: username, // Assuming 'username' is stored in DB

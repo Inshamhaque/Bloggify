@@ -28,6 +28,15 @@ export const userSchema = new mongoose.Schema({
     access_token:{
         type:String,
         required:true
+    },
+    mediumIntegrated:{
+        type:Boolean,
+        default : false
+    },
+    hashNodeIntegrated:{
+        type:Boolean,
+        default : false
     }
+
 })
 export const userModel = mongoose.model("User",userSchema)

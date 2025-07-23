@@ -8,7 +8,7 @@ import { validateApiKey } from "./middleware.ts/blocknote";
 import { createBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
 import { distinguishUser, getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
-import { medium_integration } from "./controllers/medium.controller";
+import { fetchMediumBlogs, medium_integration } from "./controllers/medium.controller";
 import { hashnode_integration } from "./controllers/hashnode.controller";
 const app = express();
 dotenv.config()
@@ -149,8 +149,12 @@ app.get('/userblog',auth,(req, res)=>{
 app.post('/user/blog',(req,res)=>{
   getBlogByUsername(req,res);
 })
+// get modium blogs by username 
+app.post('/user/medium/blogs',(req,res)=>{
+  fetchMediumBlogs(req,res)
+})
 // medium blogs
-app.get('/user/medium',(req,res)=>{
+app.post('/user/medium',(req,res)=>{
   medium_integration(req,res);
 })
 app.get('/user/hashnode',(req,res)=>{

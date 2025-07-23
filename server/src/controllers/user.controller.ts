@@ -64,9 +64,9 @@ export async function getProfile(req:AuthRequest,res:Response){
         //fetch the latest access token
         const user = await userModel.findOne({
             githubUsername : username
-        }).select("access_token");
+        });
         const access_token  = user?.access_token
-
+        console.log(user);
         // fetch the profile from github api
         const response = await axios.get("https://api.github.com/user", {
             headers: {
@@ -74,9 +74,12 @@ export async function getProfile(req:AuthRequest,res:Response){
             Accept: "application/vnd.github+json",
             }
         })
+        
         console.log(response.data)
         return res.json({
             data : response.data,
+            mediumStatus:user?.mediumIntegrated,
+            hashnodeStatus:user?.hashNodeIntegrated,
             status:200
         })
     }   
@@ -101,7 +104,7 @@ export async function distinguishUser(req:Request, res:Response){
         message: "User not authorized",
     });
     }
-    
+
     const check = await userModel.findOne({
     access_token: token,
     githubUsername: username, // Assuming 'username' is stored in DB
