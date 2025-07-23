@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { WorldMap } from "../components/ui/world-map";
 import {  Github } from 'lucide-react'
 import bloggify from "../assets/bloggify.png"
+import { BACKEND_URL } from "../config";
 
 const LandingPage: React.FC = () => {
   const [isToken,setisToken] = useState(false)
   const handleGithubLogin  = ()=>{
-    window.location.href = "http://localhost:3001/auth/github"
+    window.location.href = `${BACKEND_URL}/auth/github`
   }
   const GotoDashboard = ()=>{
     window.location.href = "/blogs"
