@@ -128,7 +128,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
             </summary>
             <div className="p-3 bg-gray-800 rounded-b-lg">
               {block.children?.map((child: any, childIndex: number) => 
-                renderBlock(child, `${index}-${childIndex}`)
+                renderBlock(child, index-childIndex)
               ) || <p className="text-gray-400">No content</p>}
             </div>
           </details>
@@ -141,7 +141,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
             {block.children && block.children.length > 0 && (
               <ol className="mt-2">
                 {block.children.map((child: any, childIndex: number) => 
-                  renderBlock(child, `${index}-${childIndex}`)
+                  renderBlock(child, index-childIndex)
                 )}
               </ol>
             )}
@@ -155,7 +155,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
             {block.children && block.children.length > 0 && (
               <ul className="mt-2">
                 {block.children.map((child: any, childIndex: number) => 
-                  renderBlock(child, `${index}-${childIndex}`)
+                  renderBlock(child, index-childIndex)
                 )}
               </ul>
             )}
@@ -242,7 +242,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
     let currentList: any[] = [];
     let listType: string | null = null;
 
-    content.forEach((block, index) => {
+    content.forEach((block) => {
       if (block.type === 'bulletListItem' || block.type === 'numberedListItem' || block.type === 'checkListItem') {
         if (listType === null) {
           listType = block.type;
@@ -279,7 +279,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
       return (
         <ul key={index} className="mb-4">
           {block.items.map((item: any, itemIndex: number) => 
-            renderBlock(item, `${index}-${itemIndex}`)
+            renderBlock(item, index-itemIndex)
           )}
         </ul>
       );
@@ -287,7 +287,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
       return (
         <ol key={index} className="mb-4">
           {block.items.map((item: any, itemIndex: number) => 
-            renderBlock(item, `${index}-${itemIndex}`)
+            renderBlock(item, index-itemIndex)
           )}
         </ol>
       );
@@ -295,7 +295,7 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
       return (
         <div key={index} className="mb-4">
           {block.items.map((item: any, itemIndex: number) => 
-            renderBlock(item, `${index}-${itemIndex}`)
+            renderBlock(item, index-itemIndex)
           )}
         </div>
       );

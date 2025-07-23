@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { LoaderOne } from "../components/ui/loader";
-import { div } from "motion/react-client";
 
 export function Loader() {
     useEffect(()=>{

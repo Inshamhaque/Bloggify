@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { WorldMap } from "../components/ui/world-map";
-import { Edit3, Github } from 'lucide-react'
+import {  Github } from 'lucide-react'
 import bloggify from "../assets/bloggify.png"
 
 const LandingPage: React.FC = () => {

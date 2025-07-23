@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { BlockNoteEditor, filterSuggestionItems } from "@blocknote/core";
+import { filterSuggestionItems } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { useState } from "react";
 import { en } from "@blocknote/core/locales";
