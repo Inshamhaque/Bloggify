@@ -45,7 +45,7 @@ const LandingPage: React.FC = () => {
         >
           <div className="flex items-center justify-center space-x-2">
             {isToken ? (
-              <span>View Sultry Blogs</span>
+              <span>View All Blogs</span>
             ) : (
               <>
                 <span>Sign in with GitHub</span>

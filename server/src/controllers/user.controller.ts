@@ -88,3 +88,35 @@ export async function getProfile(req:AuthRequest,res:Response){
     }
 
 }
+export async function distinguishUser(req:Request, res:Response){
+    const token = req.headers.authorization;
+    const { username } = req.body;
+
+    console.log("Authorization Token:", token);
+    console.log("Requested Username:", username);
+
+    if (!token) {
+    return res.json({
+        status: 404,
+        message: "User not authorized",
+    });
+    }
+    
+    const check = await userModel.findOne({
+    access_token: token,
+    githubUsername: username, // Assuming 'username' is stored in DB
+    });
+
+    if (!check) {
+    return res.json({
+        viewer: "visitor",
+        status: 200,
+    });
+    }
+
+    return res.json({
+    viewer: "owner",
+    status: 200,
+    });
+
+}

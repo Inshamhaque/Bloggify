@@ -5,7 +5,7 @@ import { BlogSkeletonPro } from './BlogSkeletonPro';
 interface Blog {
   id: string;
   title: string;
-  preview: string;
+  subtitle: string;
   createdAt: string;
   readTime?: string;
 }

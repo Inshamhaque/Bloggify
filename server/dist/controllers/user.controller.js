@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = login;
 exports.getUser = getUser;
 exports.getProfile = getProfile;
+exports.distinguishUser = distinguishUser;
 const user_model_1 = require("../models/user.model");
 const axios_1 = __importDefault(require("axios"));
 // this will be required in the first time only
@@ -103,5 +104,34 @@ function getProfile(req, res) {
                 status: 500
             });
         }
+    });
+}
+function distinguishUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const token = req.headers.authorization;
+        const { username } = req.body;
+        console.log("Authorization Token:", token);
+        console.log("Requested Username:", username);
+        if (!token) {
+            return res.json({
+                status: 404,
+                message: "User not authorized",
+            });
+        }
+        // ✅ Match both access_token and username
+        const check = yield user_model_1.userModel.findOne({
+            access_token: token,
+            githubUsername: username, // Assuming 'username' is stored in DB
+        });
+        if (!check) {
+            return res.json({
+                viewer: "visitor",
+                status: 200,
+            });
+        }
+        return res.json({
+            viewer: "owner",
+            status: 200,
+        });
     });
 }

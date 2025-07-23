@@ -4,7 +4,7 @@ interface BlogCardProps {
   blog: {
     id: string;
     title: string;
-    preview: string;
+    subtitle: string;
     createdAt: string;
     readTime?: string;
   };
@@ -28,7 +28,7 @@ export const BlogCardPro = ({ blog, onReadMore }: BlogCardProps) => {
         </h3>
         
         <p className="text-profile-text-secondary leading-relaxed mb-4 line-clamp-3">
-          {blog.preview}
+          {blog.subtitle}
         </p>
       </div>
 

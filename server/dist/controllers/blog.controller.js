@@ -15,7 +15,9 @@ exports.getUserBlogs = getUserBlogs;
 exports.getBlogbyId = getBlogbyId;
 exports.editBlog = editBlog;
 exports.getSingleBlogById = getSingleBlogById;
+exports.getBlogByUsername = getBlogByUsername;
 const blog_model_1 = require("../models/blog.model");
+const user_model_1 = require("../models/user.model");
 function createBlog(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { title, subtitle, content, userId } = req.body;
@@ -102,6 +104,33 @@ function getSingleBlogById(req, res) {
         }
         catch (e) {
             return res.json({
+                message: "Some error occurred",
+                status: 500
+            });
+        }
+    });
+}
+function getBlogByUsername(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { username } = req.body;
+        try {
+            const user = yield user_model_1.userModel.findOne({ githubUsername: username });
+            if (!user) {
+                return res.status(404).json({
+                    message: "User not found",
+                    status: 404
+                });
+            }
+            const blogs = yield blog_model_1.blogModel.find({ user: user._id });
+            return res.json({
+                message: "Fetched blogs",
+                status: 200,
+                blogs
+            });
+        }
+        catch (e) {
+            console.error(e);
+            return res.status(500).json({
                 message: "Some error occurred",
                 status: 500
             });

@@ -5,8 +5,8 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
-import { createBlog, getAllBlogs, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
-import { getProfile, getUser, login } from "./controllers/user.controller";
+import { createBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
+import { distinguishUser, getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 import { medium_integration } from "./controllers/medium.controller";
 import { hashnode_integration } from "./controllers/hashnode.controller";
@@ -129,7 +129,7 @@ app.post('/user/login',(req,res)=>{
   login(req,res)
 })
 // user profile endpoint -- public endpoint
-app.get('/user/profile',(req,res)=>{
+app.post('/user/profile',(req,res)=>{
   getProfile(req,res);
 })
 // blog routes
@@ -145,12 +145,20 @@ app.get('/blog/:id',auth,(req,res)=>{
 app.get('/userblog',auth,(req, res)=>{
   getUserBlogs(req, res)
 })
+// get blogs by username -- public endpoint
+app.post('/user/blog',(req,res)=>{
+  getBlogByUsername(req,res);
+})
 // medium blogs
 app.get('/user/medium',(req,res)=>{
   medium_integration(req,res);
 })
 app.get('/user/hashnode',(req,res)=>{
   hashnode_integration(req,res);
+})
+// viewer distinction endpoint
+app.post('/user/distinguish',(req,res)=>{
+  distinguishUser(req,res);
 })
 // server listening here
 app.listen(3001,()=>{

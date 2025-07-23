@@ -96,3 +96,31 @@ export async function getSingleBlogById(req: Request, res: Response) {
         });
     }
 }
+export async function getBlogByUsername(req: Request, res: Response) {
+    const { username } = req.body;
+
+    try {
+        const user = await userModel.findOne({ githubUsername:username });
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                status: 404
+            });
+        }
+
+        const blogs = await blogModel.find({ user: user._id });
+
+        return res.json({
+            message: "Fetched blogs",
+            status: 200,
+            blogs
+        });
+
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({
+            message: "Some error occurred",
+            status: 500
+        });
+    }
+}

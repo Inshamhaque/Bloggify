@@ -146,7 +146,7 @@ app.post('/user/login', (req, res) => {
     (0, user_controller_1.login)(req, res);
 });
 // user profile endpoint -- public endpoint
-app.get('/user/profile', (req, res) => {
+app.post('/user/profile', (req, res) => {
     (0, user_controller_1.getProfile)(req, res);
 });
 // blog routes
@@ -162,12 +162,17 @@ app.get('/blog/:id', auth_1.auth, (req, res) => {
 app.get('/userblog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.getUserBlogs)(req, res);
 });
+// get blogs by username -- public endpoint
+app.post('/user/blog', (req, res) => {
+    (0, blog_controller_1.getBlogByUsername)(req, res);
+});
 // medium blogs
 app.get('/user/medium', (req, res) => {
     (0, medium_controller_1.medium_integration)(req, res);
 });
-app.get('/user/hashnode', (req, res) => {
-    (0, hashnode_controller_1.hashnode_integration)(req, res);
+// viewer distinction endpoint
+app.post('/user/distinguish', (req, res) => {
+    (0, user_controller_1.distinguishUser)(req, res);
 });
 // server listening here
 app.listen(3001, () => {
