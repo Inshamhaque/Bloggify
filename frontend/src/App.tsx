@@ -29,7 +29,7 @@ function App() {
           <Route path='/preview' element={< Preview/>} />
           <Route path='/dashboard' element={< Dashboard />} />
           {/* user profile paths = */}
-          <Route path='/u/:id' element />
+          <Route path='/u/:id' element = { <Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>

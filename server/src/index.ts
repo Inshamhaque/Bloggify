@@ -9,6 +9,7 @@ import { createBlog, getAllBlogs, getSingleBlogById, getUserBlogs } from "./cont
 import { getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 import { medium_integration } from "./controllers/medium.controller";
+import { hashnode_integration } from "./controllers/hashnode.controller";
 const app = express();
 dotenv.config()
 app.use(express.json());
@@ -147,6 +148,9 @@ app.get('/userblog',auth,(req, res)=>{
 // medium blogs
 app.get('/user/medium',(req,res)=>{
   medium_integration(req,res);
+})
+app.get('/user/hashnode',(req,res)=>{
+  hashnode_integration(req,res);
 })
 // server listening here
 app.listen(3001,()=>{

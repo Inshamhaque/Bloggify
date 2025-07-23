@@ -41,6 +41,7 @@ const blog_controller_1 = require("./controllers/blog.controller");
 const user_controller_1 = require("./controllers/user.controller");
 const auth_1 = require("./middleware.ts/auth");
 const medium_controller_1 = require("./controllers/medium.controller");
+const hashnode_controller_1 = require("./controllers/hashnode.controller");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
@@ -164,6 +165,9 @@ app.get('/userblog', auth_1.auth, (req, res) => {
 // medium blogs
 app.get('/user/medium', (req, res) => {
     (0, medium_controller_1.medium_integration)(req, res);
+});
+app.get('/user/hashnode', (req, res) => {
+    (0, hashnode_controller_1.hashnode_integration)(req, res);
 });
 // server listening here
 app.listen(3001, () => {
