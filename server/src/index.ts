@@ -157,7 +157,7 @@ app.post('/user/medium/blogs',(req,res)=>{
 app.post('/user/medium',(req,res)=>{
   medium_integration(req,res);
 })
-app.get('/user/hashnode',(req,res)=>{
+app.post('/user/hashnode',(req,res)=>{
   hashnode_integration(req,res);
 })
 // viewer distinction endpoint

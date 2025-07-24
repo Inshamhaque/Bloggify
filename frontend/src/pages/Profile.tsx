@@ -22,6 +22,7 @@ export default function Profile() {
   const [integrationUsername, setIntegrationUsername] = useState("");
   const [integrating, setIntegrating] = useState(false);
   const [medumBlogs,setmediumBlogs] = useState([])
+  const [hashnodeBlogs, sethashnodeBlogs] = useState([])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -67,12 +68,29 @@ export default function Profile() {
             username
         })
         setmediumBlogs(response2.data.mediumBlogs)
+        setModalOpen(false)
+        return;
       } catch (err) {
         toast.error("Failed to fetch blogs");
         setBlogs([]);
       } finally {
         setLoading(false);
       }
+
+      //fetch hashnode blogs
+      try{
+      const response3 = await axios.post(`${BACKEND_URL}/user/hashnode/blogs`, {
+        username
+      });
+      setHashnodeBlogs(response3.data.blogs); // blogs is what backend sends
+      setModalOpen(false);
+      return;
+      } catch(err) {
+          toast.error("Failed to fetch Hashnode blogs");
+          setHashnodeBlogs([]); // clear if failed
+      } finally {
+      setLoading(false);
+      }   
     };
     fetchBlogs();
   }, []);
@@ -87,12 +105,13 @@ export default function Profile() {
         mediumusername : integrationUsername, 
         username 
     })
+    
     if(res.data.status==500){
         return toast.error("error in integration",{
             position : "top-right"
         })
     }
-
+    setModalOpen(false)
     setTimeout(() => {
       toast.success("Integrated successfully!",{
         position:"top-right",

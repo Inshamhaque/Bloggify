@@ -117,7 +117,7 @@ export default function GitHubNavbar() {
               <img
                 src={user.avatar_url}
                 onClick={()=>{
-                  window.location.href=`/u/${(user.name).split(" ")[0]}`
+                  window.location.href=`/u/${(user.login).split(" ")[0]}`
                 }}
                 alt="GitHub avatar"
                 className="w-10 h-10 rounded-full border-2 border-white hover:scale-105 transition"
