@@ -139,7 +139,7 @@ app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void
 }));
 // health checkpoint
 app.get('/health', (req, res) => {
-    res.send("server is running healthy");
+    res.send("server is running healthy from bloggify");
 });
 // user login endpoint
 app.post('/user/login', (req, res) => {

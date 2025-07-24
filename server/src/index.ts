@@ -122,7 +122,7 @@ app.post('/ai', validateApiKey, async (req, res) => {
 
 // health checkpoint
 app.get('/health',(req,res)=>{
-    res.send("server is running healthy")
+    res.send("server is running healthy from bloggify")
 })
 // user login endpoint
 app.post('/user/login',(req,res)=>{
