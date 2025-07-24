@@ -73,7 +73,6 @@ app.get("/auth/github/callback", (req, res) => __awaiter(void 0, void 0, void 0,
         res.status(500).send("GitHub auth failed");
     }
 }));
-// blocknote ai checkpoints
 // Initialize OpenAI client
 const openai = new openai_1.default({
     apiKey: process.env.OPENAI_API_KEY,
@@ -180,6 +179,8 @@ app.post('/user/hashnode', (req, res) => {
 // viewer distinction endpoint
 app.post('/user/distinguish', (req, res) => {
     (0, user_controller_1.distinguishUser)(req, res);
+});
+const GET_USER_BLOG = app.post('/demo/hashnode', (req, res) => {
 });
 // server listening here
 app.listen(3001, () => {

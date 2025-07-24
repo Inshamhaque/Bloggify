@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import Modal from 'react-modal';
+import UsernotFound from "../components/UserNotfound";
 
 export default function Profile() {
   const [viewMode, setViewMode] = useState<'owner' | 'visitor' | 'loading'>('owner');
@@ -45,6 +46,10 @@ export default function Profile() {
     const fetchGithubProfile = async () => {
       try {
         const response = await axios.post(`${BACKEND_URL}/user/profile`, { username });
+        if(response.data.status==404){
+          setLoading(false)
+          window.location.href='/user-not-found'
+        }
         setUser(response.data.data);
         setishashnode(response.data.hasnodeStatus);
         setismedium(response.data.mediumStatus);

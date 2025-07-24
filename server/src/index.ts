@@ -51,8 +51,6 @@ app.get("/auth/github/callback", async (req, res) => {
   }
 });
 
-// blocknote ai checkpoints
-
 // Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -164,6 +162,13 @@ app.post('/user/hashnode',(req,res)=>{
 app.post('/user/distinguish',(req,res)=>{
   distinguishUser(req,res);
 })
+
+const GET_USER_BLOG =
+app.post('/demo/hashnode',(req,res)=>{
+
+})
+
+
 // server listening here
 app.listen(3001,()=>{
     console.log("server running at 3001")
