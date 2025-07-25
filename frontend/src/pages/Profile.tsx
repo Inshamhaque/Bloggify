@@ -51,6 +51,7 @@ export default function Profile() {
           window.location.href='/user-not-found'
         }
         setUser(response.data.data);
+        console.log(user)
         setishashnode(response.data.hasnodeStatus);
         setismedium(response.data.mediumStatus);
       } catch (err) {
