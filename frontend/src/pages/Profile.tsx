@@ -17,6 +17,7 @@ export default function Profile() {
   const [user, setUser] = useState();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [integrationSource, setintegrationSource] = useState<"medium"|"hashnode"|null>(null);
   const [modalOpen, setModalOpen] = useState(null);
   const [ismedium, setismedium] = useState(false);
   const [ishashnode, setishashnode] = useState(false);
@@ -209,6 +210,7 @@ export default function Profile() {
       onClick={() =>{
         if(!ismedium){
           setModalOpen(true)
+          setintegrationSource("medium")
         }
       }}
       className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
@@ -231,6 +233,7 @@ export default function Profile() {
       onClick={() => {
         if(!ishashnode){
           setModalOpen(true)
+          setintegrationSource("hashnode")
         }
       }}
       className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
@@ -424,10 +427,10 @@ export default function Profile() {
 
       {modalOpen && (
         <Modal isOpen onRequestClose={() => setModalOpen(null)} className="bg-[#1f1f1f] p-6 rounded-xl max-w-md mx-auto mt-24 shadow-lg text-white" overlayClassName="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center">
-          <h2 className="text-xl font-semibold mb-4">Integrate with {modalOpen}</h2>
+          <h2 className="text-xl font-semibold mb-4">Integrate with {integrationSource}</h2>
           <input value={integrationUsername} onChange={e => setIntegrationUsername(e.target.value)} placeholder="Enter {modalOpen} username" className="w-full px-4 py-2 rounded-md bg-gray-800 text-white mb-4" />
           <button onClick={()=>{
-            handleIntegrate(modalOpen)
+            handleIntegrate(integrationSource)
           }} disabled={integrating} className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md">
             {integrating ? "Integrating..." : "Integrate"}
           </button>
