@@ -33,6 +33,11 @@ export async function medium_integration(req: Request, res: Response) {
     );
 
     // TODO: mark the user as medium integrated
+    const marked = await userModel.updateOne({
+      githubUsername : username
+    },{
+      mediumIntegrated : true
+    })
 
     const blogs = await Promise.all(blogPromises);
 

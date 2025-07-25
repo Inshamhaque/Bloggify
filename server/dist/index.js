@@ -169,6 +169,10 @@ app.post('/user/blog', (req, res) => {
 app.post('/user/medium/blogs', (req, res) => {
     (0, medium_controller_1.fetchMediumBlogs)(req, res);
 });
+// get hashnode blogs by username
+app.post('/user/hashnode/blogs', (req, res) => {
+    (0, hashnode_controller_1.fetchHashnodeBlogs)(req, res);
+});
 // medium blogs
 app.post('/user/medium', (req, res) => {
     (0, medium_controller_1.medium_integration)(req, res);

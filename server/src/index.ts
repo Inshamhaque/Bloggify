@@ -9,7 +9,7 @@ import { createBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserB
 import { distinguishUser, getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 import { fetchMediumBlogs, medium_integration } from "./controllers/medium.controller";
-import { hashnode_integration } from "./controllers/hashnode.controller";
+import { fetchHashnodeBlogs, hashnode_integration } from "./controllers/hashnode.controller";
 const app = express();
 dotenv.config()
 app.use(express.json());
@@ -150,6 +150,10 @@ app.post('/user/blog',(req,res)=>{
 // get modium blogs by username 
 app.post('/user/medium/blogs',(req,res)=>{
   fetchMediumBlogs(req,res)
+})
+// get hashnode blogs by username
+app.post('/user/hashnode/blogs',(req,res)=>{
+  fetchHashnodeBlogs(req,res);
 })
 // medium blogs
 app.post('/user/medium',(req,res)=>{

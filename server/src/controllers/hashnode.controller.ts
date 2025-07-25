@@ -4,10 +4,23 @@ import {userModel} from "../models/user.model";
 import {hashnodeBlog} from "../models/hashnodeblog.model";  
 
 export async function hashnode_integration(req: Request, res: Response) {
-  const { username } = req.body;
+  const { username, githubUsername } = req.body;
+  // console.log(hashnodeusername);
+  // const stringHashnodeUsername = hashnodeusername.toString()
+
 
   if (!username) {
     return res.status(400).json({ error: "Username is required" });
+  }
+  // fetch the user from the DB
+  const user  = await userModel.findOne({
+    githubUsername
+  })
+  if(!user){
+    return res.json({
+      message : "user not ecists",
+      status:404
+    })
   }
 
   try {
@@ -35,7 +48,7 @@ export async function hashnode_integration(req: Request, res: Response) {
       const response = await fetch("https://gql.hashnode.com/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, variables: { username, page, pageSize } }),
+        body: JSON.stringify({ query, variables: { username , page, pageSize } }),
       });
 
       const result = await response.json() as any;
@@ -70,10 +83,33 @@ export async function hashnode_integration(req: Request, res: Response) {
     if (allBlogs.length === 0) {
       return res.status(404).json({ error: "No posts found for this user" });
     }
+    console.log(allBlogs);
+    // save to db
+    const blogPromises = allBlogs.map(item =>
+          hashnodeBlog.create({
+            user: user._id, 
+            title: item.title,
+            link: item.link,
+            pubDate: item.pubDate,
+            description:item.description
+          })
+        );
+    
+        // TODO: mark the user as hashnode integrated and every user shud have onlty one hashnode username associated with it 
+        // one to one relation 
+    
+    // mark hashnode as integrate
+    const blogs = await Promise.all(blogPromises);
+    const marked = await userModel.updateOne({
+      githubUsername
+    },{
+      hashNodeIntegrated : true
+    })
+
 
     res.status(200).json({ 
       username, 
-      blogs: allBlogs,
+      blogs,
       totalCount: allBlogs.length
     });
 

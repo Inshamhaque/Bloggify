@@ -20,7 +20,7 @@ export default function Profile() {
   const [modalOpen, setModalOpen] = useState(null);
   const [ismedium, setismedium] = useState(false);
   const [ishashnode, setishashnode] = useState(false);
-  const [integrationUsername, setIntegrationUsername] = useState("");
+  const [integrationUsername, setIntegrationUsername] = useState<String>("");
   const [integrating, setIntegrating] = useState(false);
   const [medumBlogs,setmediumBlogs] = useState([])
   const [hashnodeBlogs, sethashnodeBlogs] = useState([])
@@ -61,70 +61,80 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        setLoading(true);
-        // fetch bloggify blogs
-        const response = await axios.post(`${BACKEND_URL}/user/blog`, { username });
-        if (response.status === 404) toast.error("No user present");
-        setBlogs(response.data.blogs || []);
-        // fetch medum blogs
-        const response2 = await axios.post(`${BACKEND_URL}/user/medium/blogs`,{
-            username
-        })
-        setmediumBlogs(response2.data.mediumBlogs)
-        setModalOpen(false)
-        return;
-      } catch (err) {
-        toast.error("Failed to fetch blogs");
-        setBlogs([]);
-      } finally {
-        setLoading(false);
-      }
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true);
 
-      //fetch hashnode blogs
-      try{
+      // fetch bloggify blogs
+      const response = await axios.post(`${BACKEND_URL}/user/blog`, { username });
+      if (response.status === 404) toast.error("No user present");
+      setBlogs(response.data.blogs || []);
+
+      // fetch medium blogs
+      const response2 = await axios.post(`${BACKEND_URL}/user/medium/blogs`, {
+        username
+      });
+      setmediumBlogs(response2.data.mediumBlogs || []);
+
+      // fetch hashnode blogs
       const response3 = await axios.post(`${BACKEND_URL}/user/hashnode/blogs`, {
         username
       });
-      setHashnodeBlogs(response3.data.blogs); // blogs is what backend sends
-      setModalOpen(false);
-      return;
-      } catch(err) {
-          toast.error("Failed to fetch Hashnode blogs");
-          setHashnodeBlogs([]); // clear if failed
-      } finally {
+      sethashnodeBlogs(response3.data.hashnodeBlogs || []); // Added fallback to prevent undefined
+      console.log('Hashnode blogs:', response3.data.blogs);
+
+    } catch (err) {
+      console.error("Failed to fetch blogs:", err);
+      toast.error("Failed to fetch blogs");
+      // Ensure all arrays are initialized even on error
+      setBlogs([]);
+      setmediumBlogs([]);
+      sethashnodeBlogs([]);
+    } finally {
       setLoading(false);
-      }   
-    };
-    fetchBlogs();
-  }, []);
+      setModalOpen(false);
+    }
+  };
+  
+  fetchBlogs();
+}, []);
 
   const getTextContent = (arr) => {
     if (!arr || !Array.isArray(arr)) return "No content";
     return arr.find(i => i.type === "text")?.text || "No content";
   };
 
-  const handleIntegrate = async () => {
-    const response = await axios.post(`${BACKEND_URL}/user/medium`,{
-        mediumusername : integrationUsername, 
-        username 
-    })
+  const handleIntegrate = async (source) => {
+  try {
+    setIntegrating(true);
+    const response = await axios.post(`${BACKEND_URL}/user/${source}`, {
+      mediumusername: integrationUsername, 
+      username: integrationUsername,
+      githubUsername: username
+    });
     
-    if(res.data.status==500){
-        return toast.error("error in integration",{
-            position : "top-right"
-        })
+    if (response.data.status == 500) { // Fixed: using 'response' instead of 'res'
+      return toast.error("error in integration", {
+        position: "top-right"
+      });
     }
-    setModalOpen(false)
+    
+    setModalOpen(false);
     setTimeout(() => {
-      toast.success("Integrated successfully!",{
-        position:"top-right",
+      toast.success("Integrated successfully!", {
+        position: "top-right",
       });
       setIntegrating(false);
       setModalOpen(null);
     }, 1500);
-  };
+  } catch (error) {
+    console.error("Integration error:", error);
+    toast.error("Integration failed", {
+      position: "top-right"
+    });
+    setIntegrating(false);
+  }
+};
 
   if (loading || !user) {
     return <div className="min-h-screen bg-[#0f0f0f] text-white flex justify-center items-center"><p>Loading...</p><ToastContainer /></div>;
@@ -286,13 +296,26 @@ export default function Profile() {
                 ))
               )}
             </div>
+        {/* Medium Header */}
+        {medumBlogs.length === 0 ? (
+  <div></div>
+) : (
+  <div className="px-4 pt-10">
+    <h2 className="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+      <img
+        src="https://cdn.iconscout.com/icon/free/png-256/medium-47-433328.png"
+        alt="medium"
+        className="bg-white w-6 h-6"
+      />
+      Medium Blogs
+    </h2>
+  </div>
+)}
 
+      {/* medium blogs */}
     <div className="mx-auto px-4 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
   {medumBlogs.length === 0 ? (
-    <div className="col-span-full text-center py-12">
-      <h2 className="text-2xl font-semibold text-gray-400">No blogs found</h2>
-      <p className="text-gray-500 mt-2">Be the first to create a blog!</p>
-    </div>
+    <div></div>
   ) : (
     medumBlogs.map((blog, idx) => (
       <CardContainer key={blog._id || idx}>
@@ -332,18 +355,75 @@ export default function Profile() {
   )}
 </div>
 
+      {hashnodeBlogs.length === 0 ? null : (
+  <div className="px-4 pt-10">
+    <h2 className="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+      <img
+        src="https://cdn.hashnode.com/res/hashnode/image/upload/v1611902473383/CDyAuTy75.png"
+        alt="hashnode"
+        className="w-6 h-6"
+      />
+      Hashnode Blogs
+    </h2>
+    {/* You can render blog items here using map */}
+  </div>
+)}
 
+      <div className="mx-auto px-4 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  {hashnodeBlogs.length === 0 ? (
+   <div></div>
+  ) : (
+    hashnodeBlogs.map((blog, idx) => (
+      <CardContainer key={blog._id || idx}>
+        <CardBody className="bg-[#1a1a1a] hover:bg-[#262626] transition-all duration-300 shadow-xl rounded-2xl p-6 border border-gray-800 flex flex-col h-full justify-between">
+          <div>
+            <CardItem
+              translateZ={30}
+              className="text-xl font-semibold text-white mb-3 truncate"
+              style={{ minHeight: "48px", maxHeight: "48px" }}
+            >
+              {blog.title?.slice(0, 28) + "..." || "Untitled"}
+            </CardItem>
+
+            <CardItem
+              translateZ={20}
+              className="text-sm text-gray-400 mb-4 line-clamp-3"
+              style={{ minHeight: "60px", maxHeight: "60px" }}
+            >
+              {blog.description?.slice(0, 100) || "No description"}...
+            </CardItem>
+          </div>
+
+          <CardItem translateZ={15}>
+            {/* ❌ Don't use <Link> for external links */}
+            <a
+              href={blog.link || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm font-semibold text-blue-400 hover:text-blue-300 transition"
+            >
+              Read <ArrowRight size={16} className="ml-1" />
+            </a>
+          </CardItem>
+        </CardBody>
+      </CardContainer>
+    ))
+  )}
+</div>
 
 
       {modalOpen && (
         <Modal isOpen onRequestClose={() => setModalOpen(null)} className="bg-[#1f1f1f] p-6 rounded-xl max-w-md mx-auto mt-24 shadow-lg text-white" overlayClassName="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center">
           <h2 className="text-xl font-semibold mb-4">Integrate with {modalOpen}</h2>
           <input value={integrationUsername} onChange={e => setIntegrationUsername(e.target.value)} placeholder="Enter {modalOpen} username" className="w-full px-4 py-2 rounded-md bg-gray-800 text-white mb-4" />
-          <button onClick={handleIntegrate} disabled={integrating} className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md">
+          <button onClick={()=>{
+            handleIntegrate(modalOpen)
+          }} disabled={integrating} className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md">
             {integrating ? "Integrating..." : "Integrate"}
           </button>
         </Modal>
       )}
+      <ToastContainer />
     </div>
   );
 }
