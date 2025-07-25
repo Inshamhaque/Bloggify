@@ -4,12 +4,12 @@ import {userModel} from "../models/user.model";
 import {hashnodeBlog} from "../models/hashnodeblog.model";  
 
 export async function hashnode_integration(req: Request, res: Response) {
-  const { username, githubUsername } = req.body;
+  const { hashnodeusername, githubUsername } = req.body;
   // console.log(hashnodeusername);
   // const stringHashnodeUsername = hashnodeusername.toString()
+  const username= String(hashnodeusername)
 
-
-  if (!username) {
+  if (!hashnodeusername) {
     return res.status(400).json({ error: "Username is required" });
   }
   // fetch the user from the DB
@@ -67,7 +67,7 @@ export async function hashnode_integration(req: Request, res: Response) {
 
       const batch = edges.map((edge: any) => ({
         title: edge.node.title,
-        link: `https://${username}.hashnode.dev/${edge.node.slug}`,
+        link: `https://${hashnodeusername}.hashnode.dev/${edge.node.slug}`,
         pubDate: edge.node.publishedAt,
         description: edge.node.brief,
       }));
@@ -108,7 +108,7 @@ export async function hashnode_integration(req: Request, res: Response) {
 
 
     res.status(200).json({ 
-      username, 
+      githubUsername, 
       blogs,
       totalCount: allBlogs.length
     });

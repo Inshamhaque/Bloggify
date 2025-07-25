@@ -110,7 +110,7 @@ export default function Profile() {
     setIntegrating(true);
     const response = await axios.post(`${BACKEND_URL}/user/${source}`, {
       mediumusername: integrationUsername, 
-      username: integrationUsername,
+      hashnodeusername: String(integrationUsername),
       githubUsername: username
     });
     
