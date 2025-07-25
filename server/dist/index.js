@@ -161,6 +161,9 @@ app.get('/blog/:id', auth_1.auth, (req, res) => {
 app.get('/userblog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.getUserBlogs)(req, res);
 });
+app.put('/blog/:id', (req, res) => {
+    (0, blog_controller_1.editBlog)(req, res);
+});
 // get blogs by username -- public endpoint
 app.post('/user/blog', (req, res) => {
     (0, blog_controller_1.getBlogByUsername)(req, res);

@@ -48,6 +48,8 @@ export default function EditBlogById(){
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [content, setContent] = useState();
+    const [changeToPreview, setChangeToPreview] = useState(false);
 
     useEffect(() => {
             const fetchBlogById = async () => {
@@ -58,11 +60,12 @@ export default function EditBlogById(){
                             Authorization: localStorage.getItem("token"),
                         },
                     });
-    
+                    setBlog(response.data.blog )
                     console.log("Blog Response:", response.data);
     
                     if (response.status === 200) {
                         setBlog(response.data.blog || response.data);
+                        console.log(blog)
                     } else {
                         toast.error("Blog not found", { position: "top-right" });
                     }
@@ -74,10 +77,9 @@ export default function EditBlogById(){
                 }
             };
     
-            if (id) {
-                fetchBlogById();
-            }
-        }, [id]);
+            fetchBlogById()
+        }, []);
+
     const editor = useCreateBlockNote({
         dictionary: {
         ...en,
@@ -88,21 +90,35 @@ export default function EditBlogById(){
             model,
         }),
         ],
-        initialContent: [
-        {
-            type: "heading",
-            props: {
-            level: 1,
-            },
-            content: "✨ Start Editing Your Blog",
-        },
-        {
-            type: "paragraph",
-            content:
-            "Begin writing your blog post here. You can use AI features by typing '/' to open the slash menu or selecting text and clicking the AI button in the toolbar.",
-        },
-        ],
+        initialContent: blog?.content || undefined
     });
+
+    // Update editor content when blog data loads
+    useEffect(() => {
+        if (blog?.content && editor) {
+            editor.replaceBlocks(editor.document, blog.content);
+        }
+    }, [blog, editor]);
+
+    const handlePreview = () => {
+        const editorContent = editor.document;
+        console.log("Storing blog content for preview:", editorContent);
+        
+        // Store content in state and localStorage
+        // TODO : try to find a correct type for this
+        //@ts-ignore
+        setContent(editorContent);
+        localStorage.setItem("blogPreviewContent", JSON.stringify(editorContent));
+        setChangeToPreview(true);
+    };
+
+    const handleBackToEdit = () => {
+        setChangeToPreview(false);
+    };
+
+    if (changeToPreview) {
+        return <Preview content={content} onBackToEdit={handleBackToEdit} option={0} />;
+    }
   
     return (
         <div className="h-screen flex flex-col bg-[#1e1e1e] text-white">
@@ -110,28 +126,20 @@ export default function EditBlogById(){
           <GitHubNavbar />
     
           {/* Page Heading */}
-          
-    
-          {/* <div className="mt-4 flex justify-between  px-4 py-2">
+          <div className="mt-4 flex justify-between px-4 py-2">
             <h1 className="text-3xl font-bold mb-4 text-white px-4 pt-4">
             📝 Edit existing Blog
-          </h1>
+            </h1>
             <button
               onClick={handlePreview}
               className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
             >
               Preview Blog
             </button>
-            {/* <button
-              onClick={handleSave}
-              className="px-3 py-1 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Save Blog
-            </button>
-          </div> */}
+          </div>
     
           {/* Editor Container */}
-          <div className="flex-1 max-h-[70vh] overflow-auto rounded-lg border border-gray-700 mx-4">
+          {!loading && <div className="flex-1 max-h-[70vh] overflow-auto rounded-lg border border-gray-700 mx-4">
             <BlockNoteView
               editor={editor}
               className="min-h-[400px] px-4 py-2 overflow-auto"
@@ -148,13 +156,14 @@ export default function EditBlogById(){
               {/* Slash Menu with AI */}
               <SuggestionMenuWithAI editor={editor} />
             </BlockNoteView>
-          </div>
+          </div>}
     
           {/* Save Button */}
     
         </div> 
       );  
 }
+
 // Formatting toolbar with the `AIToolbarButton` added
 function FormattingToolbarWithAI() {
   return (

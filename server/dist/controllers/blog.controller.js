@@ -13,9 +13,9 @@ exports.createBlog = createBlog;
 exports.getAllBlogs = getAllBlogs;
 exports.getUserBlogs = getUserBlogs;
 exports.getBlogbyId = getBlogbyId;
-exports.editBlog = editBlog;
 exports.getSingleBlogById = getSingleBlogById;
 exports.getBlogByUsername = getBlogByUsername;
+exports.editBlog = editBlog;
 const blog_model_1 = require("../models/blog.model");
 const user_model_1 = require("../models/user.model");
 function createBlog(req, res) {
@@ -78,12 +78,6 @@ function getBlogbyId() {
     return __awaiter(this, void 0, void 0, function* () {
     });
 }
-function editBlog() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // }
-        // export async function deleteBlog(){
-    });
-}
 // get blogs by id
 function getSingleBlogById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -133,6 +127,32 @@ function getBlogByUsername(req, res) {
             return res.status(500).json({
                 message: "Some error occurred",
                 status: 500
+            });
+        }
+    });
+}
+function editBlog(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.params;
+        const { content } = req.body;
+        try {
+            const result = yield blog_model_1.blogModel.updateOne({ _id: id }, { $set: { content } });
+            if (result.modifiedCount === 0) {
+                return res.status(404).json({
+                    message: "No blog found or content is identical",
+                    status: 404,
+                });
+            }
+            return res.json({
+                message: "Blog updated successfully",
+                status: 200,
+            });
+        }
+        catch (e) {
+            console.error(e);
+            return res.status(500).json({
+                message: "Error editing blog",
+                status: 500,
             });
         }
     });

@@ -5,7 +5,7 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
-import { createBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
+import { createBlog, editBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
 import { distinguishUser, getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 import { fetchMediumBlogs, medium_integration } from "./controllers/medium.controller";
@@ -142,6 +142,9 @@ app.get('/blog/:id',auth,(req,res)=>{
 })
 app.get('/userblog',auth,(req, res)=>{
   getUserBlogs(req, res)
+})
+app.put('/blog/:id',(req,res)=>{
+  editBlog(req,res);
 })
 // get blogs by username -- public endpoint
 app.post('/user/blog',(req,res)=>{

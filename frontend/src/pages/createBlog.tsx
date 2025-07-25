@@ -90,7 +90,7 @@ export default function Editlog() {
   };
 
   if (changeToPreview) {
-    return <Preview content={content} onBackToEdit={handleBackToEdit} />;
+    return <Preview content={content} onBackToEdit={handleBackToEdit} option={1}/>;
   }
 
   return (

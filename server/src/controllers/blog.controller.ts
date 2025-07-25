@@ -63,12 +63,6 @@ export async function getBlogbyId(){
 
 }
 
-export async function editBlog(){
-
-// }
-// export async function deleteBlog(){
-
-}
 // get blogs by id
 export async function getSingleBlogById(req: Request, res: Response) {
     try {
@@ -123,4 +117,33 @@ export async function getBlogByUsername(req: Request, res: Response) {
             status: 500
         });
     }
+}
+export async function editBlog(req: Request, res: Response) {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  try {
+    const result = await blogModel.updateOne(
+      { _id: id },
+      { $set: { content } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({
+        message: "No blog found or content is identical",
+        status: 404,
+      });
+    }
+
+    return res.json({
+      message: "Blog updated successfully",
+      status: 200,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      message: "Error editing blog",
+      status: 500,
+    });
+  }
 }
