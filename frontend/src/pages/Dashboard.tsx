@@ -114,6 +114,8 @@ export default function Dashboard() {
                       {blog.user?.name || "You"}
                     </span>
                   </div>
+                  <Link to = {`/edit/${blog._id}`}
+                        className="text-sm text-green-400 hover:underline flex items-center gap-1">Edit</Link>
                   <Link
                     to={`/blog/${blog._id}`}
                     className="text-sm text-blue-400 hover:underline flex items-center gap-1"
