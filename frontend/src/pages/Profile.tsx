@@ -206,7 +206,11 @@ export default function Profile() {
   <div className="flex gap-6 mt-6 justify-center">
     {/* Medium Integration */}
     <button
-      onClick={() => setModalOpen('medium')}
+      onClick={() =>{
+        if(!ismedium){
+          setModalOpen(true)
+        }
+      }}
       className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
     >
       {ismedium ? (
@@ -224,7 +228,11 @@ export default function Profile() {
 
     {/* Hashnode Integration */}
     <button
-      onClick={() => setModalOpen('hashnode')}
+      onClick={() => {
+        if(!ishashnode){
+          setModalOpen(true)
+        }
+      }}
       className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-sm"
     >
       {ishashnode ? (
