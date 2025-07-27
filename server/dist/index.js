@@ -73,7 +73,6 @@ app.get("/auth/github/callback", (req, res) => __awaiter(void 0, void 0, void 0,
         res.status(500).send("GitHub auth failed");
     }
 }));
-// blocknote ai checkpoints
 // Initialize OpenAI client
 const openai = new openai_1.default({
     apiKey: process.env.OPENAI_API_KEY,
@@ -139,7 +138,7 @@ app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void
 }));
 // health checkpoint
 app.get('/health', (req, res) => {
-    res.send("server is running healthy");
+    res.send("server is running healthy from bloggify");
 });
 // user login endpoint
 app.post('/user/login', (req, res) => {
@@ -162,6 +161,9 @@ app.get('/blog/:id', auth_1.auth, (req, res) => {
 app.get('/userblog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.getUserBlogs)(req, res);
 });
+app.put('/blog/:id', (req, res) => {
+    (0, blog_controller_1.editBlog)(req, res);
+});
 // get blogs by username -- public endpoint
 app.post('/user/blog', (req, res) => {
     (0, blog_controller_1.getBlogByUsername)(req, res);
@@ -170,16 +172,22 @@ app.post('/user/blog', (req, res) => {
 app.post('/user/medium/blogs', (req, res) => {
     (0, medium_controller_1.fetchMediumBlogs)(req, res);
 });
+// get hashnode blogs by username
+app.post('/user/hashnode/blogs', (req, res) => {
+    (0, hashnode_controller_1.fetchHashnodeBlogs)(req, res);
+});
 // medium blogs
 app.post('/user/medium', (req, res) => {
     (0, medium_controller_1.medium_integration)(req, res);
 });
-app.get('/user/hashnode', (req, res) => {
+app.post('/user/hashnode', (req, res) => {
     (0, hashnode_controller_1.hashnode_integration)(req, res);
 });
 // viewer distinction endpoint
 app.post('/user/distinguish', (req, res) => {
     (0, user_controller_1.distinguishUser)(req, res);
+});
+const GET_USER_BLOG = app.post('/demo/hashnode', (req, res) => {
 });
 // server listening here
 app.listen(3001, () => {

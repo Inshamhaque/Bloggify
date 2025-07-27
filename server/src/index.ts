@@ -5,11 +5,11 @@ import axios from "axios";
 import dotenv from "dotenv"
 import OpenAI from "openai";
 import { validateApiKey } from "./middleware.ts/blocknote";
-import { createBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
+import { createBlog, editBlog, getAllBlogs, getBlogByUsername, getSingleBlogById, getUserBlogs } from "./controllers/blog.controller";
 import { distinguishUser, getProfile, getUser, login } from "./controllers/user.controller";
 import { auth } from "./middleware.ts/auth";
 import { fetchMediumBlogs, medium_integration } from "./controllers/medium.controller";
-import { hashnode_integration } from "./controllers/hashnode.controller";
+import { fetchHashnodeBlogs, hashnode_integration } from "./controllers/hashnode.controller";
 const app = express();
 dotenv.config()
 app.use(express.json());
@@ -50,8 +50,6 @@ app.get("/auth/github/callback", async (req, res) => {
     res.status(500).send("GitHub auth failed");
   }
 });
-
-// blocknote ai checkpoints
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -122,7 +120,7 @@ app.post('/ai', validateApiKey, async (req, res) => {
 
 // health checkpoint
 app.get('/health',(req,res)=>{
-    res.send("server is running healthy")
+    res.send("server is running healthy from bloggify")
 })
 // user login endpoint
 app.post('/user/login',(req,res)=>{
@@ -145,6 +143,9 @@ app.get('/blog/:id',auth,(req,res)=>{
 app.get('/userblog',auth,(req, res)=>{
   getUserBlogs(req, res)
 })
+app.put('/blog/:id',(req,res)=>{
+  editBlog(req,res);
+})
 // get blogs by username -- public endpoint
 app.post('/user/blog',(req,res)=>{
   getBlogByUsername(req,res);
@@ -153,17 +154,28 @@ app.post('/user/blog',(req,res)=>{
 app.post('/user/medium/blogs',(req,res)=>{
   fetchMediumBlogs(req,res)
 })
+// get hashnode blogs by username
+app.post('/user/hashnode/blogs',(req,res)=>{
+  fetchHashnodeBlogs(req,res);
+})
 // medium blogs
 app.post('/user/medium',(req,res)=>{
   medium_integration(req,res);
 })
-app.get('/user/hashnode',(req,res)=>{
+app.post('/user/hashnode',(req,res)=>{
   hashnode_integration(req,res);
 })
 // viewer distinction endpoint
 app.post('/user/distinguish',(req,res)=>{
   distinguishUser(req,res);
 })
+
+const GET_USER_BLOG =
+app.post('/demo/hashnode',(req,res)=>{
+
+})
+
+
 // server listening here
 app.listen(3001,()=>{
     console.log("server running at 3001")

@@ -3,11 +3,12 @@ import GitHubNavbar from "../components/Navbar";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
-export default function Preview({ content: propContent, onBackToEdit }: any) {
+export default function Preview({ content: propContent, onBackToEdit,option }: any) {
   const [content, setContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const { id } = useParams()
   useEffect(() => {
     // Use prop content first, then fallback to localStorage
     if (propContent) {
@@ -69,7 +70,21 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
       localStorage.removeItem("blogPreviewContent");
     }
   };
-
+  const handlEditSave = async()=>{
+    console.log('this is getting called')
+    const response = await axios.put(`${BACKEND_URL}/blog/${id}`,{
+      content
+    });
+    if(response){
+        toast.success("Blogged saved!",{
+          position : "top-right"
+        })
+        window.location.href = '/dashboard'
+        return
+      }
+      alert("Blog saved successfully!");
+      localStorage.removeItem("blogPreviewContent");
+  }
   const handleEdit = () => {
     if (onBackToEdit) {
       onBackToEdit(); // Use callback to go back to edit mode
@@ -330,7 +345,14 @@ export default function Preview({ content: propContent, onBackToEdit }: any) {
             ← Edit
           </button>
           <button
-            onClick={handleSave}
+            onClick={()=>{
+              if(option==0){
+                handlEditSave();
+              }
+              else{
+                handleSave()
+              }
+            }}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             💾 Save Blog

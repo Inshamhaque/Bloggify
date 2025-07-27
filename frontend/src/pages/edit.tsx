@@ -22,7 +22,8 @@ import {
 import { en as aiEn } from "@blocknote/xl-ai/locales";
 import "@blocknote/xl-ai/style.css";
 import GitHubNavbar from "../components/Navbar";
-
+import { useState } from "react";
+import Preview from "./Preview";
 export const BLOCKNOTE_AI_SERVER_API_KEY = "BLOCKNOTE_SECRET";
 export const BLOCKNOTE_AI_SERVER_BASE_URL = "http://localhost:3001/ai";
 
@@ -39,6 +40,9 @@ const model = createOpenAI({
 
 // Main Editor Component
 export default function Editlog() {
+  const [changeToPreview, setChangeToPreview] = useState(false); 
+  const [content, setContent] = useState();
+
   const editor = useCreateBlockNote({
     dictionary: {
       ...en,
@@ -64,11 +68,26 @@ export default function Editlog() {
       },
     ],
   });
+    const handlePreview = () => {
+      const editorContent = editor.document;
+      console.log("Storing blog content for preview:", editorContent);
+    
+      // Store content in state and localStorage
+      // TODO : try to find a correct type for this
+      //@ts-ignore
+      setContent(editorContent);
+      localStorage.setItem("blogPreviewContent", JSON.stringify(editorContent));
+      setChangeToPreview(true);
+    };
 
-  const handleSave = () => {
-    const json = editor.document;
-    console.log("Blog content JSON:", json);
-  };
+    const handleBackToEdit = () => {
+      setChangeToPreview(false);
+    };
+
+    if (changeToPreview) {
+        return <Preview content={content} onBackToEdit={handleBackToEdit} />;
+    }
+
 
   return (
     <div className="h-screen flex flex-col bg-[#1e1e1e] text-white">
@@ -83,11 +102,17 @@ export default function Editlog() {
         📝 Edit existing Blog
       </h1>
         <button
+          onClick={handlePreview}
+          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
+          Preview Blog
+        </button>
+        {/* <button
           onClick={handleSave}
-          className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="px-3 py-1 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Save Blog
-        </button>
+        </button> */}
       </div>
 
       {/* Editor Container */}

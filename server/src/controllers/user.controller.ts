@@ -67,6 +67,12 @@ export async function getProfile(req:AuthRequest,res:Response){
         });
         const access_token  = user?.access_token
         console.log(user);
+        if(!user){
+            return res.json({
+                message : "user not found",
+                status : 404
+            })
+        }
         // fetch the profile from github api
         const response = await axios.get("https://api.github.com/user", {
             headers: {

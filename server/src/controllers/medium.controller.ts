@@ -7,15 +7,15 @@ import mongoose from 'mongoose';
 const parser = new RSSParser();
 
 export async function medium_integration(req: Request, res: Response) {
-  const { username, mediumusername } = req.body;
+  const { githubUsername, mediumusername } = req.body;
 
-  if (!username) {
+  if (!githubUsername) {
     return res.status(400).json({ error: "Username is required" });
   }
 
   try {
     // Fetch user by GitHub username
-    const user = await userModel.findOne({ githubUsername: username });
+    const user = await userModel.findOne({ githubUsername });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -33,10 +33,15 @@ export async function medium_integration(req: Request, res: Response) {
     );
 
     // TODO: mark the user as medium integrated
+    const marked = await userModel.updateOne({
+      githubUsername
+    },{
+      mediumIntegrated : true
+    })
 
     const blogs = await Promise.all(blogPromises);
 
-    res.status(200).json({ username, blogs });
+    res.status(200).json({ githubUsername, blogs });
   } catch (error: any) {
     console.error(error);
     res.status(500).json({

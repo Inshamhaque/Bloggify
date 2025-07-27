@@ -11,6 +11,7 @@ import {
 } from "../components/ui/3d-card";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import EditBlogById from "./edit_blogid";
 
 export default function Dashboard() {
   const [blogs, setBlogs] = useState([]);
@@ -114,6 +115,8 @@ export default function Dashboard() {
                       {blog.user?.name || "You"}
                     </span>
                   </div>
+                  <Link to = {`/editblogbyid/${blog._id}`}
+                        className="text-sm text-green-400 hover:underline flex items-center gap-1">Edit</Link>
                   <Link
                     to={`/blog/${blog._id}`}
                     className="text-sm text-blue-400 hover:underline flex items-center gap-1"

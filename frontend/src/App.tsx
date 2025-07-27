@@ -10,6 +10,9 @@ import { Loader } from './pages/Loader'
 import  Preview from './pages/Preview'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
+import Funny404 from './components/NotFound'
+import UsernotFound from './components/UserNotfound'
+import EditBlogById from './pages/edit_blogid'
 
 function App() {
 
@@ -25,11 +28,15 @@ function App() {
           {/* returning all blogs  */}
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/edit" element={<Edit/>} />
+          <Route path='/editblogbyid/:id' element={<EditBlogById/>}/>
           <Route path='/create' element={<Create/>}></Route>
           <Route path='/preview' element={< Preview/>} />
           <Route path='/dashboard' element={< Dashboard />} />
           {/* user profile paths = */}
           <Route path='/u/:username' element={<Profile />} />
+          {/* 404 not found */}
+          <Route path='/not-found' element={<Funny404/>} />
+          <Route path='/user-not-found' element={< UsernotFound/>} />
         </Routes>
       </BrowserRouter>
     </>
