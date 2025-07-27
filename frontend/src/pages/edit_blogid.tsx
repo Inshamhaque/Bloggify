@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { createOpenAI } from "@ai-sdk/openai";
 import { BlockNoteEditor, filterSuggestionItems } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";

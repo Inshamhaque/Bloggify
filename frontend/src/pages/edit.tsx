@@ -88,10 +88,6 @@ export default function Editlog() {
         return <Preview content={content} onBackToEdit={handleBackToEdit} />;
     }
 
-  const handleSave = () => {
-    const json = editor.document;
-    console.log("Blog content JSON:", json);
-  };
 
   return (
     <div className="h-screen flex flex-col bg-[#1e1e1e] text-white">
