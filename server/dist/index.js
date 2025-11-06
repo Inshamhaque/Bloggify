@@ -77,7 +77,6 @@ app.get("/auth/github/callback", (req, res) => __awaiter(void 0, void 0, void 0,
 const openai = new openai_1.default({
     apiKey: process.env.OPENAI_API_KEY,
 });
-// Custom API key validation middleware
 // AI completion endpoint for BlockNote
 app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
@@ -136,6 +135,17 @@ app.post('/ai', blocknote_1.validateApiKey, (req, res) => __awaiter(void 0, void
         });
     }
 }));
+// keep alive endpoint
+app.head('/health', (req, res) => {
+    // HEAD requests should not return a body
+    // Just return status code and headers
+    res.set({
+        'X-Service-Status': 'ok',
+        'X-Service-Uptime': process.uptime(),
+        'X-Last-Check': new Date().toISOString()
+    });
+    res.status(200).end();
+});
 // health checkpoint
 app.get('/health', (req, res) => {
     res.send("server is running healthy from bloggify");
@@ -155,7 +165,7 @@ app.get('/blogs', (req, res) => {
 app.post('/blog', auth_1.auth, (req, res) => {
     (0, blog_controller_1.createBlog)(req, res);
 });
-app.get('/blog/:id', auth_1.auth, (req, res) => {
+app.get('/blog/:id', (req, res) => {
     (0, blog_controller_1.getSingleBlogById)(req, res);
 });
 app.get('/userblog', auth_1.auth, (req, res) => {

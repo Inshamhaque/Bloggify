@@ -146,7 +146,7 @@ app.get('/blogs',(req,res)=>{
 app.post('/blog',auth,(req,res)=>{
     createBlog(req,res)
 })
-app.get('/blog/:id',auth,(req,res)=>{
+app.get('/blog/:id',(req,res)=>{
     getSingleBlogById(req,res)
 })
 app.get('/userblog',auth,(req, res)=>{
